@@ -1,4 +1,5 @@
 dotfiles
 ========
 
-dot files to get a clean new machine up and running.
+clone this to $HOME/.dotfiles and run install.sh
+
