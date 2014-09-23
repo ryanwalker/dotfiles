@@ -48,7 +48,8 @@ export CC="/usr/bin/gcc"
 export PKG_CONFIG_PATH='/usr/local/Cellar/cairo/1.12.14/lib/pkgconfig/'
 # GRAPHITE INSTALL ###########
 
-source ~/devtools/git-completion.bash 
+source $HOME/.dotfiles/grails_autocomplete
+source $HOME/devtools/git-completion.bash 
 
 alias ll="ls -lG"
 alias la="ls -laG"
