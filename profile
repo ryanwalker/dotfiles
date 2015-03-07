@@ -23,6 +23,11 @@ export GRAILS_HOME=$DEVTOOLS/grails
 export GRADLE_HOME=$DEVTOOLS/gradle
 export NEXUS_HOME=$DEVTOOLS/nexus/nexus
 export PLAY_HOME="$DEVTOOLS/play"
+export ACTIVATOR_HOME="$DEVTOOLS/activator"
+export PANCAKES_HOME=$DEVTOOLS/pankacesw
+export DELPOY_HOME=$DEVTOOLS/delpoyctl
+
+#export GRADLE_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
 # export JAVA_TOOL_OPTIONS='-Djava.awt.headless=true'
 export MAVEN_OPTS="-Xmx1536m -XX:ReservedCodeCacheSize=64m -XX:MaxPermSize=512m -XX:CompileCommand=exclude,com/infusion/databridge/MemoryRst,loadMeta -Dfile.encoding=ISO-8859-1"
 # -javaagent:$DEVTOOLS/AppDynamicsLite/AppServerAgentLite/javaagent.jar"
@@ -36,7 +41,27 @@ export SVNROOT="https://scm.infusiontest.com/svn/crmalpha"
 export CASSANDRA_HOME=$DEVTOOLS/cassandra
 
 export PATH=~/devtools/visualvm/bin:~/bin:/usr/local/bin:/usr/local/mysql/bin:$MAVEN_HOME/bin:$ANT_HOME/bin:$GRAILS_HOME/bin:$GANT_HOME/bin:$PATH
-export PATH=$JAVA_HOME/bin:$GROOVY_HOME/bin:$PLAY_HOME:$SPRING_HOME/bin:$GRADLE_HOME/bin:$CASSANDRA_HOME/bin:$PATH
+export PATH=$JAVA_HOME/bin:$GROOVY_HOME/bin:$PLAY_HOME:$SPRING_HOME/bin:$GRADLE_HOME/bin:$CASSANDRA_HOME/bin:/$ACTIVATOR_HOME:$PATH
+export PATH=$PANCAKES_HOME:$PATH
+export PATH=$DELPOY_HOME:$PATH
+export AWS_ACCESS_KEY_ID=$(security find-generic-password -wa aws_access_key_id)
+export AWS_SECRET_ACCESS_KEY=$(security find-generic-password -wa aws_secret_access_key)
+export GITHUB_ACCESS_TOKEN=$(security find-generic-password -wa github)
+export CIRCLE_CI_TOKEN=$(security find-generic-password -wa github)
+export DELPOY_USERNAME=$(security find-generic-password -wa delpoyusername)
+export DELPOY_PASSWORD=$(security find-generic-password -wa delpoypassword)
+
+unset nontwostep;
+function nontwostep() {
+	curl --silent -H "Authorization: token $GITHUB_ACCESS_TOKEN" https://api.github.com/orgs/infusionsoft/members\?filter\=2fa_disabled\&page=$1\&per_page=$2
+}
+function deploykeys() {
+	curl -H "Authorization: itoken $GITHUB_ACCESS_TOKEN" https://api.github.com/repos/ryanwalker/grails-docker-exampld/keys
+}
+hiddenFiles() {
+	defaults write com.apple.finder AppleShowAllFiles $1
+}
+
 
 # GRAPHITE INSTALL ###########
 export PYTHONPATH="/usr/local/Cellar/python/2.7.5"
@@ -51,8 +76,10 @@ export PKG_CONFIG_PATH='/usr/local/Cellar/cairo/1.12.14/lib/pkgconfig/'
 source $HOME/.dotfiles/grails_autocomplete
 source $HOME/devtools/git-completion.bash 
 
-alias ll="ls -lG"
-alias la="ls -laG"
+# amaon aws cli auto-completion
+complete -C aws_completer aws
+
+alias ll="ls -laG"
 alias ls="ls -G"
 alias u="cd .."
 alias work="su - ryan"
@@ -62,6 +89,7 @@ alias tom6="emtd6"
 # alias tom="mvnRebel | colout \"\\[INFO\\].*$\" green bold | colout \"\\[WARNING\\].*$\" yellow bold | colout \"\\[ERROR\\].*$\" red bold"
 # alias tom="mvnRebel"
 # alias tom6=mvnRebel7
+alias addgitignore="find * -type d -empty -exec touch {}/.gitignore \;"
 alias tommy="./dist/server/bin/catalina.sh jpda run"
 alias catal="./infusionsoft-dist/target/dist/server/bin/catalina.sh jpda run"
 alias dbvis="nohup ~/applications/dbvis/dbvis &"
@@ -89,6 +117,7 @@ alias jc="export JAVA_TOOL_OPTIONS='-Djava.awt.headless=false' && jconsole"
 alias pj='python -mjson.tool'
 alias repos='cd ~/projects/git-repos'
 alias proj='cd ~/projects'
+alias shellinit='$(boot2docker shellinit)'
 
 #prompt customization
 #export PS1='\[\033]0;$WINDOW_TITLE  on \H [\w]\007
@@ -98,9 +127,27 @@ alias proj='cd ~/projects'
 alias filter="svn status | grep -v \"^ M\""
 # alias cleardelta='mysql -ueric -peric5425 -e "DELETE FROM ryanw.DatabaseDeltaLog; DELETE FROM infusionsoft.DatabaseDeltaLog;"'
 
+unset githubnon2step;
+function githubnon2step () {
+        curl -H "Authorization: token $GITHUB_ACCESS_TOKEN" https://api.github.com/orgs/infusionsoft/members\?filter\=2fa_disabled
+}
+
 unset title;
 function title(){
 	echo -n -e "\033]0;$1\007"
+}
+
+unset gradle;
+function gradle(){
+	# if gradlew file exists use it
+	if [ -f ./gradlew ] 
+	then
+	    echo 'USING gradlew...'
+	    ./gradlew "$@"
+	else
+	    echo 'USING gradle on PATH...'
+	    sh $GRADLE_HOME/bin/gradle "$@"
+	fi
 }
 
 unset apitest;
@@ -209,3 +256,7 @@ function _update_ps1() {
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "/Users/ryanw/.gvm/bin/gvm-init.sh" ]] && source "/Users/ryanw/.gvm/bin/gvm-init.sh"
+
+export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
