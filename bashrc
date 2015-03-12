@@ -1,12 +1,8 @@
 #!/bin/bash
 
 #Java
-export JAVA_HOME=`/usr/libexec/java_home -v 1.7`
-export JAVA6_HOME=`/usr/libexec/java_home -v 1.6`
-export JAVA7_HOME=`/usr/libexec/java_home -v 1.7`
+export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
 export JAVA8_HOME=`/usr/libexec/java_home -v 1.8`
-alias j6='export JAVA_HOME=$JAVA6_HOME'
-alias j7='export JAVA_HOME=$JAVA7_HOME'
 alias j8='export JAVA_HOME=$JAVA8_HOME'
 
 export DEVTOOLS=~/devtools
@@ -73,9 +69,6 @@ export CC="/usr/bin/gcc"
 export PKG_CONFIG_PATH='/usr/local/Cellar/cairo/1.12.14/lib/pkgconfig/'
 # GRAPHITE INSTALL ###########
 
-source $HOME/.dotfiles/grails_autocomplete
-source $HOME/devtools/git-completion.bash 
-
 # amaon aws cli auto-completion
 complete -C aws_completer aws
 
@@ -104,7 +97,7 @@ alias mit6="j7 && mi && tom6"
 alias emt="mvn tomcat:run -pl webapp"
 alias emtd="mvnDebug tomcat:run -pl webapp"
 alias emtd6="mvnDebug tomcat6:run -pl webapp"
-alias src="source ~/.profile"
+alias src="source ~/.bashrc"
 alias bn="grep SNAPSHOT pom.xml | sed -e 's,<[^>]*>\|-SNAPSHOT\| *,,g'"
 alias synctrunk="svn merge ^/crmalpha/trunk"
 alias mimekill="find . -name jmimemagic.log | xargs rm"

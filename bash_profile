@@ -14,6 +14,9 @@ if [ -f ~/.git-completion.bash ]; then
   source ~/.git-completion.bash
 fi
 
+if [ -f ~/.grails-completion.bash ]; then
+  source ~/.grails-completion.bash
+fi
 
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
