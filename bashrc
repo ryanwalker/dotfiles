@@ -1,8 +1,10 @@
 #!/bin/bash
 
 #Java
-export JAVA_HOME=`/usr/libexec/java_home -v 1.8`
+export JAVA7_HOME=`/usr/libexec/java_home -v 1.7`
 export JAVA8_HOME=`/usr/libexec/java_home -v 1.8`
+export JAVA_HOME=$JAVA7_HOME
+alias j7='export JAVA_HOME=$JAVA7_HOME'
 alias j8='export JAVA_HOME=$JAVA8_HOME'
 
 export DEVTOOLS=~/devtools
@@ -111,6 +113,7 @@ alias pj='python -mjson.tool'
 alias repos='cd ~/projects/git-repos'
 alias proj='cd ~/projects'
 alias shellinit='$(boot2docker shellinit)'
+alias dotfiles='cd ~/.dotfiles'
 
 #prompt customization
 #export PS1='\[\033]0;$WINDOW_TITLE  on \H [\w]\007
