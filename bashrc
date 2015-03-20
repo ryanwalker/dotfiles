@@ -148,6 +148,19 @@ function gradle(){
 	fi
 }
 
+unset grails;
+function grails(){                                                                                                                                                                                                
+        # if grailsw file exists use it
+        if [ -f ./grailsw ] 
+        then
+            echo 'USING grailsw...'
+            ./grailsw "$@"
+        else
+            echo 'USING grails on PATH...'
+            sh $GRAILS_HOME/bin/grails "$@"
+        fi
+}  
+
 unset apitest;
 function apitest(){
 	groovy -cp plugins/xmlrpc-0.1/lib/groovy-xmlrpc-0.3.jar src/groovy/$1
