@@ -1,11 +1,13 @@
 #!/bin/bash
 
 #Java
+export JAVA6_HOME=`/usr/libexec/java_home -v 1.6`
 export JAVA7_HOME=`/usr/libexec/java_home -v 1.7`
 export JAVA8_HOME=`/usr/libexec/java_home -v 1.8`
 export JAVA_HOME=$JAVA7_HOME
-alias j7='export JAVA_HOME=$JAVA7_HOME'
-alias j8='export JAVA_HOME=$JAVA8_HOME'
+alias j6="export JAVA_HOME=$JAVA6_HOME;"
+alias j7="export JAVA_HOME=$JAVA7_HOME; export PATH=$JAVA7_HOME/bin:$PATH"
+alias j8="export JAVA_HOME=$JAVA8_HOME; export PATH=$JAVA8_HOME/bin:$PATH"
 
 export DEVTOOLS=~/devtools
 
@@ -112,7 +114,7 @@ alias jc="export JAVA_TOOL_OPTIONS='-Djava.awt.headless=false' && jconsole"
 alias pj='python -mjson.tool'
 alias repos='cd ~/projects/git-repos'
 alias proj='cd ~/projects'
-alias shellinit='$(boot2docker shellinit)'
+alias dockerinit='$(boot2docker shellinit)'
 alias dotfiles='cd ~/.dotfiles'
 
 #prompt customization

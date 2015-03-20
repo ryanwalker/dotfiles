@@ -6,17 +6,11 @@
 # to them in a new terminal session.
 #
 
-if [ -f ~/.bashrc ]; then
-  source ~/.bashrc
-fi
+[ -r ~/.bashrc ] && source ~/.bashrc
 
-if [ -f ~/.git-completion.bash ]; then
-  source ~/.git-completion.bash
-fi
+[ -r ~/.git-completion.bash ] && source ~/.git-completion.bash
 
-if [ -f ~/.grails-completion.bash ]; then
-  source ~/.grails-completion.bash
-fi
+[ -r ~/.grails_autocomplete ] && source ~/.grails_autocomplete
 
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
