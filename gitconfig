@@ -13,3 +13,5 @@
   	dump = cat-file -p
 [pull]
 	rebase = true
+[core]
+	excludesfile = ~/.gitignore_global

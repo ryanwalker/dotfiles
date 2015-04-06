@@ -116,6 +116,7 @@ alias repos='cd ~/projects/git-repos'
 alias proj='cd ~/projects'
 alias dockerinit='$(boot2docker shellinit)'
 alias dotfiles='cd ~/.dotfiles'
+alias killgradlecache='rmr ~/.gradle/caches/modules-2/files-2.1/'
 
 #prompt customization
 #export PS1='\[\033]0;$WINDOW_TITLE  on \H [\w]\007
@@ -147,19 +148,6 @@ function gradle(){
 	    sh $GRADLE_HOME/bin/gradle "$@"
 	fi
 }
-
-unset grails;
-function grails(){                                                                                                                                                                                                
-        # if grailsw file exists use it
-        if [ -f ./grailsw ] 
-        then
-            echo 'USING grailsw...'
-            ./grailsw "$@"
-        else
-            echo 'USING grails on PATH...'
-            sh $GRAILS_HOME/bin/grails "$@"
-        fi
-}  
 
 unset apitest;
 function apitest(){
