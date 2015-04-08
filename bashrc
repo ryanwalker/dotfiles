@@ -24,8 +24,6 @@ export GRADLE_HOME=$DEVTOOLS/gradle
 export NEXUS_HOME=$DEVTOOLS/nexus/nexus
 export PLAY_HOME="$DEVTOOLS/play"
 export ACTIVATOR_HOME="$DEVTOOLS/activator"
-export PANCAKES_HOME=$DEVTOOLS/pankacesw
-export DELPOY_HOME=$DEVTOOLS/delpoyctl
 
 #export GRADLE_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
 # export JAVA_TOOL_OPTIONS='-Djava.awt.headless=true'
@@ -42,15 +40,15 @@ export CASSANDRA_HOME=$DEVTOOLS/cassandra
 
 export PATH=~/devtools/visualvm/bin:~/bin:/usr/local/bin:/usr/local/mysql/bin:$MAVEN_HOME/bin:$ANT_HOME/bin:$GRAILS_HOME/bin:$GANT_HOME/bin:$PATH
 export PATH=$JAVA_HOME/bin:$GROOVY_HOME/bin:$PLAY_HOME:$SPRING_HOME/bin:$GRADLE_HOME/bin:$CASSANDRA_HOME/bin:/$ACTIVATOR_HOME:$PATH
-export PATH=$PANCAKES_HOME:$PATH
-export PATH=$DELPOY_HOME:$PATH
 export AWS_ACCESS_KEY_ID=$(security find-generic-password -wa aws_access_key_id)
 export AWS_SECRET_ACCESS_KEY=$(security find-generic-password -wa aws_secret_access_key)
 export GITHUB_ACCESS_TOKEN=$(security find-generic-password -wa github)
 export CIRCLE_CI_TOKEN=$(security find-generic-password -wa github)
+export DELPOY_URL='http://localhost:8080'
 export DELPOY_USERNAME=$(security find-generic-password -wa delpoyusername)
 export DELPOY_PASSWORD=$(security find-generic-password -wa delpoypassword)
-
+alias proddelpoy="export DELPOY_URL='https://delpoy.sbsp.io'" 
+alias devdelpoy="export DELPOY_URL='http://localhost:8080'" 
 unset nontwostep;
 function nontwostep() {
 	curl --silent -H "Authorization: token $GITHUB_ACCESS_TOKEN" https://api.github.com/orgs/infusionsoft/members\?filter\=2fa_disabled\&page=$1\&per_page=$2
@@ -135,7 +133,10 @@ unset title;
 function title(){
 	echo -n -e "\033]0;$1\007"
 }
-
+unset portsearch;
+function portsearch(){
+	lsof -i :$1
+}
 unset gradle;
 function gradle(){
 	# if gradlew file exists use it
