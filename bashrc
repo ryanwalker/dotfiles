@@ -15,6 +15,7 @@ export SPRING_HOME=$DEVTOOLS/spring
 
 export ANT_HOME=$DEVTOOLS/ant
 export GANT_HOME=$DEVTOOLS/gant
+export GOPATH=$HOME/projects/go
 export MAVEN_HOME=$DEVTOOLS/maven
 export M2_HOME=$DEVTOOLS/maven
 export GROOVY_HOME=$DEVTOOLS/groovy
@@ -29,7 +30,7 @@ export ACTIVATOR_HOME="$DEVTOOLS/activator"
 # export JAVA_TOOL_OPTIONS='-Djava.awt.headless=true'
 export MAVEN_OPTS="-Xmx1536m -XX:ReservedCodeCacheSize=64m -XX:MaxPermSize=512m -XX:CompileCommand=exclude,com/infusion/databridge/MemoryRst,loadMeta -Dfile.encoding=ISO-8859-1"
 # -javaagent:$DEVTOOLS/AppDynamicsLite/AppServerAgentLite/javaagent.jar"
-#export MAVEN_DEBUG_OPTS="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000"
+export MAVEN_DEBUG_OPTS="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000"
 
 export ANT_OPTS="-Dfile.encoding=ISO-8859-1"
 export JAVA_OPTS="-Xms256m -Xmx1024m -XX:MaxPermSize=128m"
@@ -37,18 +38,29 @@ export JAVA_OPTS="-Xms256m -Xmx1024m -XX:MaxPermSize=128m"
 export EDITOR="vim"
 export SVNROOT="https://scm.infusiontest.com/svn/crmalpha"
 export CASSANDRA_HOME=$DEVTOOLS/cassandra
+export MYSQL_HOST=127.0.0.1
 
 export PATH=~/devtools/visualvm/bin:~/bin:/usr/local/bin:/usr/local/mysql/bin:$MAVEN_HOME/bin:$ANT_HOME/bin:$GRAILS_HOME/bin:$GANT_HOME/bin:$PATH
-export PATH=$JAVA_HOME/bin:$GROOVY_HOME/bin:$PLAY_HOME:$SPRING_HOME/bin:$GRADLE_HOME/bin:$CASSANDRA_HOME/bin:/$ACTIVATOR_HOME:$PATH
+export PATH=$JAVA_HOME/bin:$GROOVY_HOME/bin:$PLAY_HOME:$SPRING_HOME/bin:$GRADLE_HOME/bin:$CASSANDRA_HOME/bin:/$ACTIVATOR_HOME:$GOPATH/bin:$PATH
+export DOCKERHUB_EMAIL=$(security find-generic-password -wa dockerhub_email)
+export DOCKERHUB_USERNAME=$(security find-generic-password -wa dockerhub_username)
+export DOCKERHUB_PASSWORD=$(security find-generic-password -wa dockerhub_password)
 export AWS_ACCESS_KEY_ID=$(security find-generic-password -wa aws_access_key_id)
 export AWS_SECRET_ACCESS_KEY=$(security find-generic-password -wa aws_secret_access_key)
 export GITHUB_ACCESS_TOKEN=$(security find-generic-password -wa github)
-export CIRCLE_CI_TOKEN=$(security find-generic-password -wa github)
-export DELPOY_URL='http://localhost:8080'
+export CIRCLE_CI_TOKEN=$(security find-generic-password -wa circle_ci_token)
 export DELPOY_USERNAME=$(security find-generic-password -wa delpoyusername)
 export DELPOY_PASSWORD=$(security find-generic-password -wa delpoypassword)
+
+export DELPOY_URL='http://localhost:8080'
 alias proddelpoy="export DELPOY_URL='https://delpoy.sbsp.io'" 
 alias devdelpoy="export DELPOY_URL='http://localhost:8080'" 
+
+export FLEETCTL_ENDPOINT=http://127.0.0.1:8091
+export FLEETCTL_TUNNEL=127.0.0.1
+alias fleetdev="export FLEETCTL_TUNNEL=127.0.0.1"
+alias fleetprod="export FLEETCTL_TUNNEL=52.6.75.254"
+
 unset nontwostep;
 function nontwostep() {
 	curl --silent -H "Authorization: token $GITHUB_ACCESS_TOKEN" https://api.github.com/orgs/infusionsoft/members\?filter\=2fa_disabled\&page=$1\&per_page=$2
@@ -85,8 +97,7 @@ alias tom6="emtd6"
 # alias tom="mvnRebel"
 # alias tom6=mvnRebel7
 alias addgitignore="find * -type d -empty -exec touch {}/.gitignore \;"
-alias tommy="./dist/server/bin/catalina.sh jpda run"
-alias catal="./infusionsoft-dist/target/dist/server/bin/catalina.sh jpda run"
+alias catrun="./infusionsoft-dist/target/dist/server/bin/catalina.sh jpda run"
 alias dbvis="nohup ~/applications/dbvis/dbvis &"
 alias mci="mvn clean install"
 alias umci="svn up && mci"
@@ -103,7 +114,6 @@ alias src="source ~/.bashrc"
 alias bn="grep SNAPSHOT pom.xml | sed -e 's,<[^>]*>\|-SNAPSHOT\| *,,g'"
 alias synctrunk="svn merge ^/crmalpha/trunk"
 alias mimekill="find . -name jmimemagic.log | xargs rm"
-alias catalina="./infusionsoft-dist/target/dist/server/bin/catalina.sh jpda run"
 alias restartWindow="sudo killall -HUP WindowServer"
 alias buildwithcamp="mvn clean && mvn install -P front && mvn install -P camp"
 alias runfront="sh infusionsoft-dist/target/front/server/bin/catalina.sh jpda run"
@@ -135,7 +145,7 @@ function title(){
 }
 unset portsearch;
 function portsearch(){
-	lsof -i :$1
+	sudo lsof -i :$1
 }
 unset gradle;
 function gradle(){
