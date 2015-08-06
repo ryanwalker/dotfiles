@@ -5,9 +5,9 @@ export JAVA6_HOME=`/usr/libexec/java_home -v 1.6`
 export JAVA7_HOME=`/usr/libexec/java_home -v 1.7`
 export JAVA8_HOME=`/usr/libexec/java_home -v 1.8`
 export JAVA_HOME=$JAVA7_HOME
-alias j6="export JAVA_HOME=$JAVA6_HOME;"
-alias j7="export JAVA_HOME=$JAVA7_HOME; export PATH=$JAVA7_HOME/bin:$PATH"
-alias j8="export JAVA_HOME=$JAVA8_HOME; export PATH=$JAVA8_HOME/bin:$PATH"
+alias j6=export JAVA_HOME=$JAVA6_HOME
+alias j7='export JAVA_HOME="$JAVA7_HOME" && export PATH="$JAVA7_HOME/bin:$PATH"'
+alias j8='export JAVA_HOME="$JAVA8_HOME" && export PATH="$JAVA8_HOME/bin:$PATH"'
 
 export DEVTOOLS=~/devtools
 
@@ -18,7 +18,7 @@ export GANT_HOME=$DEVTOOLS/gant
 export GOPATH=$HOME/projects/go
 export MAVEN_HOME=$DEVTOOLS/maven
 export M2_HOME=$DEVTOOLS/maven
-export GROOVY_HOME=$DEVTOOLS/groovy
+#export GROOVY_HOME=$DEVTOOLS/groovy
 export REBEL_HOME=$DEVTOOLS/jrebel
 export GRAILS_HOME=$DEVTOOLS/grails
 export GRADLE_HOME=$DEVTOOLS/gradle
@@ -28,12 +28,12 @@ export ACTIVATOR_HOME="$DEVTOOLS/activator"
 
 #export GRADLE_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
 # export JAVA_TOOL_OPTIONS='-Djava.awt.headless=true'
-export MAVEN_OPTS="-Xmx1536m -XX:ReservedCodeCacheSize=64m -XX:MaxPermSize=512m -XX:CompileCommand=exclude,com/infusion/databridge/MemoryRst,loadMeta -Dfile.encoding=ISO-8859-1"
-# -javaagent:$DEVTOOLS/AppDynamicsLite/AppServerAgentLite/javaagent.jar"
+export MAVEN_OPTS="-Xmx2048m -XX:MaxPermSize=2048m -XX:ReservedCodeCacheSize=64m -XX:CompileCommand=exclude,com/infusion/databridge/MemoryRst,loadMeta -Dfile.encoding=ISO-8859-1"
 export MAVEN_DEBUG_OPTS="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000"
+# -javaagent:$DEVTOOLS/AppDynamicsLite/AppServerAgentLite/javaagent.jar"
 
 export ANT_OPTS="-Dfile.encoding=ISO-8859-1"
-export JAVA_OPTS="-Xms256m -Xmx1024m -XX:MaxPermSize=128m"
+export JAVA_OPTS="-Xms256m -Xmx1024m" #-XX:MaxPermSize=512m
 
 export EDITOR="vim"
 export SVNROOT="https://scm.infusiontest.com/svn/crmalpha"
@@ -55,6 +55,7 @@ export DELPOY_PASSWORD=$(security find-generic-password -wa delpoypassword)
 export DELPOY_URL='http://localhost:8080'
 alias proddelpoy="export DELPOY_URL='https://delpoy.sbsp.io'" 
 alias devdelpoy="export DELPOY_URL='http://localhost:8080'" 
+
 
 export FLEETCTL_ENDPOINT=http://127.0.0.1:8091
 export FLEETCTL_TUNNEL=127.0.0.1
@@ -110,7 +111,7 @@ alias mit6="j7 && mi && tom6"
 alias emt="mvn tomcat:run -pl webapp"
 alias emtd="mvnDebug tomcat:run -pl webapp"
 alias emtd6="mvnDebug tomcat6:run -pl webapp"
-alias src="source ~/.bashrc"
+alias src="source ~/.bash_profile"
 alias bn="grep SNAPSHOT pom.xml | sed -e 's,<[^>]*>\|-SNAPSHOT\| *,,g'"
 alias synctrunk="svn merge ^/crmalpha/trunk"
 alias mimekill="find . -name jmimemagic.log | xargs rm"
@@ -125,11 +126,11 @@ alias proj='cd ~/projects'
 alias dockerinit='$(boot2docker shellinit)'
 alias dotfiles='cd ~/.dotfiles'
 alias killgradlecache='rmr ~/.gradle/caches/modules-2/files-2.1/'
-
+alias core='cd ~/projects/infusionsoft-core'
 #prompt customization
-#export PS1='\[\033]0;$WINDOW_TITLE  on \H [\w]\007
-#:\033[34m\]\u@\h \[\033[31m\w\033[0m\]
-#$ '
+export PS1='\[\033]0;$WINDOW_TITLE  on \H [\w]\007
+:\033[34m\]\u@\h \[\033[31m\w\033[0m\]
+$ '
 
 alias filter="svn status | grep -v \"^ M\""
 # alias cleardelta='mysql -ueric -peric5425 -e "DELETE FROM ryanw.DatabaseDeltaLog; DELETE FROM infusionsoft.DatabaseDeltaLog;"'

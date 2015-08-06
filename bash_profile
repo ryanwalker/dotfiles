@@ -8,6 +8,8 @@
 
 [ -r ~/.bashrc ] && source ~/.bashrc
 
+[ -r ~/.localrc ] && source ~/.localrc
+
 [ -r ~/.git-completion.bash ] && source ~/.git-completion.bash
 
 [ -r ~/.grails_autocomplete ] && source ~/.grails_autocomplete
