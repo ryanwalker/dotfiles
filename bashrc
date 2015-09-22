@@ -4,7 +4,8 @@
 export JAVA6_HOME=`/usr/libexec/java_home -v 1.6`
 export JAVA7_HOME=`/usr/libexec/java_home -v 1.7`
 export JAVA8_HOME=`/usr/libexec/java_home -v 1.8`
-export JAVA_HOME=$JAVA7_HOME
+#export JAVA_HOME=$JAVA7_HOME
+export JAVA_HOME=$JAVA8_HOME
 alias j6=export JAVA_HOME=$JAVA6_HOME
 alias j7='export JAVA_HOME="$JAVA7_HOME" && export PATH="$JAVA7_HOME/bin:$PATH"'
 alias j8='export JAVA_HOME="$JAVA8_HOME" && export PATH="$JAVA8_HOME/bin:$PATH"'
@@ -127,6 +128,7 @@ alias dockerinit='$(boot2docker shellinit)'
 alias dotfiles='cd ~/.dotfiles'
 alias killgradlecache='rmr ~/.gradle/caches/modules-2/files-2.1/'
 alias core='cd ~/projects/infusionsoft-core'
+alias mysqldatadir="mysql -uroot -proot -e 'SHOW VARIABLES WHERE Variable_Name LIKE \"%dir\"'"
 #prompt customization
 export PS1='\[\033]0;$WINDOW_TITLE  on \H [\w]\007
 :\033[34m\]\u@\h \[\033[31m\w\033[0m\]

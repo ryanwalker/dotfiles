@@ -6,3 +6,7 @@
 .idea
 
 .gradle
+target
+build
+*.iml
+
