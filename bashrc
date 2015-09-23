@@ -129,10 +129,13 @@ alias dotfiles='cd ~/.dotfiles'
 alias killgradlecache='rmr ~/.gradle/caches/modules-2/files-2.1/'
 alias core='cd ~/projects/infusionsoft-core'
 alias mysqldatadir="mysql -uroot -proot -e 'SHOW VARIABLES WHERE Variable_Name LIKE \"%dir\"'"
-#prompt customization
-export PS1='\[\033]0;$WINDOW_TITLE  on \H [\w]\007
+
+export PS1="\[\033]0;$WINDOW_TITLE  on \H [\w]\007
 :\033[34m\]\u@\h \[\033[31m\w\033[0m\]
-$ '
+\$(parse_git_branch)\[\033[00m\] $ "
+
+export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]
+\$(parse_git_branch)\[\033[00m\] $ "
 
 alias filter="svn status | grep -v \"^ M\""
 # alias cleardelta='mysql -ueric -peric5425 -e "DELETE FROM ryanw.DatabaseDeltaLog; DELETE FROM infusionsoft.DatabaseDeltaLog;"'

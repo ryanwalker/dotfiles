@@ -12,9 +12,11 @@
 
 [ -r ~/.git-completion.bash ] && source ~/.git-completion.bash
 
-[ -r ~/.git-prompt.sh ] && source ~/.git-prompt.sh
-
 [ -r ~/.grails_autocomplete ] && source ~/.grails_autocomplete
+
+parse_git_branch() {
+     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "/Users/ryanw/.gvm/bin/gvm-init.sh" ]] && source "/Users/ryanw/.gvm/bin/gvm-init.sh"
