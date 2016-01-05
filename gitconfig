@@ -16,3 +16,5 @@
 [core]
 	excludesfile = ~/.gitignore_global
 	autocrlf = input
+[credential]
+	helper = osxkeychain

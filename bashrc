@@ -11,7 +11,7 @@ alias j7='export JAVA_HOME="$JAVA7_HOME" && export PATH="$JAVA7_HOME/bin:$PATH"'
 alias j8='export JAVA_HOME="$JAVA8_HOME" && export PATH="$JAVA8_HOME/bin:$PATH"'
 
 export DEVTOOLS=~/devtools
-
+export CONNECTIQ_HOME=$DEVTOOLS/connectiq
 export SPRING_HOME=$DEVTOOLS/spring
 
 export ANT_HOME=$DEVTOOLS/ant
@@ -41,8 +41,8 @@ export SVNROOT="https://scm.infusiontest.com/svn/crmalpha"
 export CASSANDRA_HOME=$DEVTOOLS/cassandra
 export MYSQL_HOST=127.0.0.1
 
-export PATH=~/devtools/visualvm/bin:~/bin:/usr/local/bin:/usr/local/mysql/bin:$MAVEN_HOME/bin:$ANT_HOME/bin:$GRAILS_HOME/bin:$GANT_HOME/bin:$PATH
-export PATH=$JAVA_HOME/bin:$GROOVY_HOME/bin:$PLAY_HOME:$SPRING_HOME/bin:$GRADLE_HOME/bin:$CASSANDRA_HOME/bin:/$ACTIVATOR_HOME:$GOPATH/bin:$PATH
+export PATH=~/devtools/visualvm/bin:~/bin:/usr/local/bin:/usr/local/mysql/bin:$MAVEN_HOME/bin:$ANT_HOME/bin:$GRAILS_HOME/bin:$GANT_HOME/bin:$CONNECTIQ_HOME/bin:$PATH
+export PATH=$JAVA_HOME/bin:$GROOVY_HOME/bin:$PLAY_HOME:$SPRING_HOME/bin:$GRADLE_HOME/bin:$CASSANDRA_HOME/bin:/$ACTIVATOR_HOME:$GOPATH/bin:$CONNEC$PATH
 export DOCKERHUB_EMAIL=$(security find-generic-password -wa dockerhub_email)
 export DOCKERHUB_USERNAME=$(security find-generic-password -wa dockerhub_username)
 export DOCKERHUB_PASSWORD=$(security find-generic-password -wa dockerhub_password)
@@ -113,7 +113,7 @@ alias emt="mvn tomcat:run -pl webapp"
 alias emtd="mvnDebug tomcat:run -pl webapp"
 alias emtd6="mvnDebug tomcat6:run -pl webapp"
 alias src="source ~/.bash_profile"
-alias bn="grep SNAPSHOT pom.xml | sed -e 's,<[^>]*>\|-SNAPSHOT\| *,,g'"
+#alias bn="grep SNAPSHOT pom.xml | sed -e 's/<version>[(.*)]-SNAPSHOT<\/version>//g' | sed -e 's/<version>//g' | sed -e 's/-SNAPSHOT<\/version>//g' | gsed -e 's/\s\+//g' | pbcopy"
 alias synctrunk="svn merge ^/crmalpha/trunk"
 alias mimekill="find . -name jmimemagic.log | xargs rm"
 alias restartWindow="sudo killall -HUP WindowServer"
@@ -129,6 +129,8 @@ alias dotfiles='cd ~/.dotfiles'
 alias killgradlecache='rmr ~/.gradle/caches/modules-2/files-2.1/'
 alias core='cd ~/projects/infusionsoft-core'
 alias mysqldatadir="mysql -uroot -proot -e 'SHOW VARIABLES WHERE Variable_Name LIKE \"%dir\"'"
+alias gbuild='gradle clean build'
+alias grun='gradle clean bootRun'
 
 export PS1="\[\033]0;$WINDOW_TITLE  on \H [\w]\007
 :\033[34m\]\u@\h \[\033[31m\w\033[0m\]
@@ -140,6 +142,12 @@ export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]
 alias filter="svn status | grep -v \"^ M\""
 # alias cleardelta='mysql -ueric -peric5425 -e "DELETE FROM ryanw.DatabaseDeltaLog; DELETE FROM infusionsoft.DatabaseDeltaLog;"'
 
+unset bn;
+function bn () {
+    VERSION=`grep SNAPSHOT pom.xml | sed -e 's/<version>[(.*)]-SNAPSHOT<\/version>//g' | sed -e 's/<version>//g' | sed -e 's/-SNAPSHOT<\/version>//g' | gsed -e 's/\s\+//g'`
+    echo $VERSION | pbcopy
+    echo "$VERSION copied"
+}
 unset githubnon2step;
 function githubnon2step () {
         curl -H "Authorization: token $GITHUB_ACCESS_TOKEN" https://api.github.com/orgs/infusionsoft/members\?filter\=2fa_disabled
