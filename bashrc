@@ -4,11 +4,10 @@
 export JAVA6_HOME=`/usr/libexec/java_home -v 1.6`
 export JAVA7_HOME=`/usr/libexec/java_home -v 1.7`
 export JAVA8_HOME=`/usr/libexec/java_home -v 1.8`
-#export JAVA_HOME=$JAVA7_HOME
 export JAVA_HOME=$JAVA8_HOME
-alias j6=export JAVA_HOME=$JAVA6_HOME
-alias j7='export JAVA_HOME="$JAVA7_HOME" && export PATH="$JAVA7_HOME/bin:$PATH"'
-alias j8='export JAVA_HOME="$JAVA8_HOME" && export PATH="$JAVA8_HOME/bin:$PATH"'
+alias j6='JAVA_HOME=$JAVA6_HOME; export PATH=$JAVA_HOME/bin:$PATH'
+alias j7='JAVA_HOME=$JAVA7_HOME; export PATH=$JAVA_HOME/bin:$PATH'
+alias j8='JAVA_HOME=$JAVA8_HOME; export PATH=$JAVA_HOME/bin:$PATH'
 
 export DEVTOOLS=~/devtools
 export CONNECTIQ_HOME=$DEVTOOLS/connectiq
@@ -17,21 +16,13 @@ export SPRING_HOME=$DEVTOOLS/spring
 export ANT_HOME=$DEVTOOLS/ant
 export GANT_HOME=$DEVTOOLS/gant
 export GOPATH=$HOME/projects/go
-export MAVEN_HOME=$DEVTOOLS/maven
-export M2_HOME=$DEVTOOLS/maven
-#export GROOVY_HOME=$DEVTOOLS/groovy
-export REBEL_HOME=$DEVTOOLS/jrebel
+export M3_HOME=/usr/local/Cellar/maven/3.3.9
 export GRAILS_HOME=$DEVTOOLS/grails
 export GRADLE_HOME=$DEVTOOLS/gradle
-export NEXUS_HOME=$DEVTOOLS/nexus/nexus
-export PLAY_HOME="$DEVTOOLS/play"
 export ACTIVATOR_HOME="$DEVTOOLS/activator"
 
-#export GRADLE_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=5005"
-# export JAVA_TOOL_OPTIONS='-Djava.awt.headless=true'
-export MAVEN_OPTS="-Xmx2048m -XX:MaxPermSize=2048m -XX:ReservedCodeCacheSize=64m -XX:CompileCommand=exclude,com/infusion/databridge/MemoryRst,loadMeta -Dfile.encoding=ISO-8859-1"
-export MAVEN_DEBUG_OPTS="-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=8000"
-# -javaagent:$DEVTOOLS/AppDynamicsLite/AppServerAgentLite/javaagent.jar"
+export MAVEN_OPTS="-Xms2048m -Xmx2048m -XX:MaxPermSize=2048m -XX:ReservedCodeCacheSize=64m -XX:CompileCommand=exclude,com/infusion/databridge/MemoryRst,loadMeta -Dfile.encoding=ISO-8859-1"
+#export GRADLE_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
 
 export ANT_OPTS="-Dfile.encoding=ISO-8859-1"
 export JAVA_OPTS="-Xms256m -Xmx1024m" #-XX:MaxPermSize=512m
@@ -40,8 +31,9 @@ export EDITOR="vim"
 export SVNROOT="https://scm.infusiontest.com/svn/crmalpha"
 export CASSANDRA_HOME=$DEVTOOLS/cassandra
 export MYSQL_HOST=127.0.0.1
+export APPENGINE_JAVA_SDK_HOME="$DEVTOOLS/appengine-java-sdk"
 
-export PATH=~/devtools/visualvm/bin:~/bin:/usr/local/bin:/usr/local/mysql/bin:$MAVEN_HOME/bin:$ANT_HOME/bin:$GRAILS_HOME/bin:$GANT_HOME/bin:$CONNECTIQ_HOME/bin:$PATH
+export PATH=~/devtools/visualvm/bin:~/bin:/usr/local/bin:/usr/local/mysql/bin:$M3_HOME/bin:$ANT_HOME/bin:$APPENGIN_JAVA_SDK_HOME/bin:$GRAILS_HOME/bin:$GANT_HOME/bin:$CONNECTIQ_HOME/bin:$PATH
 export PATH=$JAVA_HOME/bin:$GROOVY_HOME/bin:$PLAY_HOME:$SPRING_HOME/bin:$GRADLE_HOME/bin:$CASSANDRA_HOME/bin:/$ACTIVATOR_HOME:$GOPATH/bin:$CONNEC$PATH
 export DOCKERHUB_EMAIL=$(security find-generic-password -wa dockerhub_email)
 export DOCKERHUB_USERNAME=$(security find-generic-password -wa dockerhub_username)
@@ -52,17 +44,22 @@ export GITHUB_ACCESS_TOKEN=$(security find-generic-password -wa github)
 export CIRCLE_CI_TOKEN=$(security find-generic-password -wa circle_ci_token)
 export DELPOY_USERNAME=$(security find-generic-password -wa delpoyusername)
 export DELPOY_PASSWORD=$(security find-generic-password -wa delpoypassword)
+export CODECOVE_API_TOKEN=$(security find-generic-password -wa CODECOV_API_TOKEN)
 
 export DELPOY_URL='http://localhost:8080'
 alias proddelpoy="export DELPOY_URL='https://delpoy.sbsp.io'" 
 alias devdelpoy="export DELPOY_URL='http://localhost:8080'" 
 
-
-export FLEETCTL_ENDPOINT=http://127.0.0.1:8091
-export FLEETCTL_TUNNEL=127.0.0.1
-alias fleetdev="export FLEETCTL_TUNNEL=127.0.0.1"
-alias fleetprod="export FLEETCTL_TUNNEL=52.6.75.254"
-
+alias standup="open https://zoom.us/j/765433829; open https://jira.infusionsoft.com/secure/RapidBoard.jspa?rapidView=124"
+alias ddclean="rm -rf ~/Library/Developer/Xcode/DerivedData/"
+unset b64;
+b64() {
+    echo -n "$1" | openssl base64
+}
+unset b64d;
+b64d() {
+    echo -n "$1" | base64 --decode
+}
 unset nontwostep;
 function nontwostep() {
 	curl --silent -H "Authorization: token $GITHUB_ACCESS_TOKEN" https://api.github.com/orgs/infusionsoft/members\?filter\=2fa_disabled\&page=$1\&per_page=$2
@@ -74,17 +71,6 @@ hiddenFiles() {
 	defaults write com.apple.finder AppleShowAllFiles $1
 }
 
-
-# GRAPHITE INSTALL ###########
-export PYTHONPATH="/usr/local/Cellar/python/2.7.5"
-export PATH="$PYTHONPATH/bin:$PATH"
-export LD_LIBRARY_PATH="$PYTHONPATH/:$PYTHONPATH/lib/:$LD_LIBRARY_PATH"
-export LINKFLAGS='-search_dylibs_first -L $PYTHONPATH/lib/'
-export ARCHFLAGS='-arch x86_64'
-export CC="/usr/bin/gcc"
-export PKG_CONFIG_PATH='/usr/local/Cellar/cairo/1.12.14/lib/pkgconfig/'
-# GRAPHITE INSTALL ###########
-
 # amaon aws cli auto-completion
 complete -C aws_completer aws
 
@@ -95,25 +81,21 @@ alias work="su - ryan"
 alias rmr="rm -rf"
 alias tom="emtd"
 alias tom6="emtd6"
-# alias tom="mvnRebel | colout \"\\[INFO\\].*$\" green bold | colout \"\\[WARNING\\].*$\" yellow bold | colout \"\\[ERROR\\].*$\" red bold"
-# alias tom="mvnRebel"
-# alias tom6=mvnRebel7
 alias addgitignore="find * -type d -empty -exec touch {}/.gitignore \;"
 alias catrun="./infusionsoft-dist/target/dist/server/bin/catalina.sh jpda run"
 alias dbvis="nohup ~/applications/dbvis/dbvis &"
 alias mci="mvn clean install"
 alias umci="svn up && mci"
-alias mcit6="j7 && mvn clean install && tom6"
+alias mcit6="mci && tom6"
 alias mcit="mci && tom"
 alias umcit="svn up && mci && tom"
 alias mi="mvn install"
 alias mit="mi && tom"
-alias mit6="j7 && mi && tom6"
+alias mit6="mi && tom6"
 alias emt="mvn tomcat:run -pl webapp"
 alias emtd="mvnDebug tomcat:run -pl webapp"
 alias emtd6="mvnDebug tomcat6:run -pl webapp"
 alias src="source ~/.bash_profile"
-#alias bn="grep SNAPSHOT pom.xml | sed -e 's/<version>[(.*)]-SNAPSHOT<\/version>//g' | sed -e 's/<version>//g' | sed -e 's/-SNAPSHOT<\/version>//g' | gsed -e 's/\s\+//g' | pbcopy"
 alias synctrunk="svn merge ^/crmalpha/trunk"
 alias mimekill="find . -name jmimemagic.log | xargs rm"
 alias restartWindow="sudo killall -HUP WindowServer"
@@ -130,21 +112,21 @@ alias killgradlecache='rmr ~/.gradle/caches/modules-2/files-2.1/'
 alias core='cd ~/projects/infusionsoft-core'
 alias mysqldatadir="mysql -uroot -proot -e 'SHOW VARIABLES WHERE Variable_Name LIKE \"%dir\"'"
 alias gbuild='gradle clean build'
-alias grun='gradle clean bootRun'
-
+alias grun='gradle clean runApp'
+alias gbrun='gradle clean bootRun'
+alias dm='docker-machine'
+alias hideicons='defaults write com.apple.finder CreateDesktop false && killall Finder'
+alias showicons='defaults write com.apple.finder CreateDesktop true && killall Finder'
+alias carddb='ssh -N card'
 export PS1="\[\033]0;$WINDOW_TITLE  on \H [\w]\007
 :\033[34m\]\u@\h \[\033[31m\w\033[0m\]
 \$(parse_git_branch)\[\033[00m\] $ "
 
-export PS1="\u@\h \[\033[32m\]\w\[\033[33m\]
-\$(parse_git_branch)\[\033[00m\] $ "
-
 alias filter="svn status | grep -v \"^ M\""
-# alias cleardelta='mysql -ueric -peric5425 -e "DELETE FROM ryanw.DatabaseDeltaLog; DELETE FROM infusionsoft.DatabaseDeltaLog;"'
 
 unset bn;
 function bn () {
-    VERSION=`grep SNAPSHOT pom.xml | sed -e 's/<version>[(.*)]-SNAPSHOT<\/version>//g' | sed -e 's/<version>//g' | sed -e 's/-SNAPSHOT<\/version>//g' | gsed -e 's/\s\+//g'`
+    VERSION=`grep 'SNAPSHOT</version>' pom.xml | sed -e 's/<version>[(.*)]-SNAPSHOT<\/version>//g' | sed -e 's/<version>//g' | sed -e 's/-SNAPSHOT<\/version>//g' | gsed -e 's/\s\+//g'`
     echo $VERSION | pbcopy
     echo "$VERSION copied"
 }
@@ -160,6 +142,10 @@ function title(){
 unset portsearch;
 function portsearch(){
 	sudo lsof -i :$1
+}
+unset ports;
+function ports(){
+	sudo lsof -i -P | grep -i "listen"
 }
 unset gradle;
 function gradle(){
@@ -259,11 +245,6 @@ function mergetrunk(){
 # Your previous /Users/ryanw/.profile file was backed up as /Users/ryanw/.profile.macports-saved_2012-01-20_at_14:17:03
 ##
 
-# MacPorts Installer addition on 2012-01-20_at_14:17:03: adding an appropriate PATH variable for use with MacPorts.
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-# Finished adapting your PATH environment variable for use with MacPorts.
-
-
 # Setting PATH for Python 3.3
 # The orginal version is saved in .profile.pysave
 PATH="/Library/Frameworks/Python.framework/Versions/3.3/bin:${PATH}"
@@ -276,11 +257,21 @@ function _update_ps1() {
        export PS1="$(~/powerline-shell.py $? 2> /dev/null)"
 }
 
-# export PROMPT_COMMAND="_update_ps1; $PROMPT_COMMAND"
-
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
-[[ -s "/Users/ryanw/.gvm/bin/gvm-init.sh" ]] && source "/Users/ryanw/.gvm/bin/gvm-init.sh"
-
-export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
+#export PATH="$PATH:$HOME/.rvm/bin" # Add RVM to PATH for scripting
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+PATH="/Users/ryanw/perl5/bin${PATH+:}${PATH}"; export PATH;
+PERL5LIB="/Users/ryanw/perl5/lib/perl5${PERL5LIB+:}${PERL5LIB}"; export PERL5LIB;
+PERL_LOCAL_LIB_ROOT="/Users/ryanw/perl5${PERL_LOCAL_LIB_ROOT+:}${PERL_LOCAL_LIB_ROOT}"; export PERL_LOCAL_LIB_ROOT;
+PERL_MB_OPT="--install_base \"/Users/ryanw/perl5\""; export PERL_MB_OPT;
+PERL_MM_OPT="INSTALL_BASE=/Users/ryanw/perl5"; export PERL_MM_OPT;
+
+# The next line updates PATH for the Google Cloud SDK.
+source '/Users/ryanw/google-cloud-sdk/path.bash.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/Users/ryanw/google-cloud-sdk/completion.bash.inc'
+
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!                                                                                                         
+[[ -s "/Users/ryanw/.gvm/bin/gvm-init.sh" ]] && source "/Users/ryanw/.gvm/bin/gvm-init.sh"
