@@ -22,7 +22,6 @@ export GRADLE_HOME=$DEVTOOLS/gradle
 export ACTIVATOR_HOME="$DEVTOOLS/activator"
 
 export MAVEN_OPTS="-Xms2048m -Xmx2048m -XX:MaxPermSize=2048m -XX:ReservedCodeCacheSize=64m -XX:CompileCommand=exclude,com/infusion/databridge/MemoryRst,loadMeta -Dfile.encoding=ISO-8859-1"
-#export GRADLE_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
 
 export ANT_OPTS="-Dfile.encoding=ISO-8859-1"
 export JAVA_OPTS="-Xms256m -Xmx1024m" #-XX:MaxPermSize=512m
@@ -47,8 +46,8 @@ export DELPOY_PASSWORD=$(security find-generic-password -wa delpoypassword)
 export CODECOVE_API_TOKEN=$(security find-generic-password -wa CODECOV_API_TOKEN)
 
 export DELPOY_URL='http://localhost:8080'
-alias proddelpoy="export DELPOY_URL='https://delpoy.sbsp.io'" 
-alias devdelpoy="export DELPOY_URL='http://localhost:8080'" 
+alias proddelpoy="export DELPOY_URL='https://delpoy.sbsp.io'"
+alias devdelpoy="export DELPOY_URL='http://localhost:8080'"
 
 alias standup="open https://zoom.us/j/765433829; open https://jira.infusionsoft.com/secure/RapidBoard.jspa?rapidView=124"
 alias ddclean="rm -rf ~/Library/Developer/Xcode/DerivedData/"
@@ -149,7 +148,7 @@ function ports(){
 unset gradle;
 function gradle(){
 	# if gradlew file exists use it
-	if [ -f ./gradlew ] 
+	if [ -f ./gradlew ]
 	then
 	    echo 'USING gradlew...'
 	    ./gradlew "$@"
@@ -230,20 +229,6 @@ function m() {
         svn up && svn log --limit 5 | grep '| ryan |' | awk '{print $1}' | sed 's/r//' | xargs -n 1 -0 -I rev svn merge -c rev . ../$1
 }
 
-#probably can get rid of mergetrunk because of the above 2 scripts
-unset mergetrunk;
-function mergetrunk(){
-	if [ $# -lt 1 ]; then
-        	echo 'need revision'
-	else
-		svn merge -c $1 . ~/projects/trunk
-	fi
-}
-
-##
-# Your previous /Users/ryanw/.profile file was backed up as /Users/ryanw/.profile.macports-saved_2012-01-20_at_14:17:03
-##
-
 # Setting PATH for Python 3.3
 # The orginal version is saved in .profile.pysave
 PATH="/Library/Frameworks/Python.framework/Versions/3.3/bin:${PATH}"
@@ -272,5 +257,5 @@ source '/Users/ryanw/google-cloud-sdk/path.bash.inc'
 # The next line enables shell command completion for gcloud.
 source '/Users/ryanw/google-cloud-sdk/completion.bash.inc'
 
-#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!                                                                                                         
+#THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "/Users/ryanw/.gvm/bin/gvm-init.sh" ]] && source "/Users/ryanw/.gvm/bin/gvm-init.sh"
