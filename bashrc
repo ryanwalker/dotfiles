@@ -53,6 +53,8 @@ alias devdelpoy="export DELPOY_URL='http://localhost:8080'"
 alias standup="open https://zoom.us/j/765433829; open https://jira.infusionsoft.com/secure/RapidBoard.jspa?rapidView=124"
 alias ddclean="rm -rf ~/Library/Developer/Xcode/DerivedData/"
 unset b64;
+alias showfiles='defaults write com.apple.finder AppleShowAllFiles YES'
+alias hidefiles='defaults write com.apple.finder AppleShowAllFiles NO'
 b64() {
     echo -n "$1" | openssl base64
 }
@@ -66,9 +68,6 @@ function nontwostep() {
 }
 function deploykeys() {
 	curl -H "Authorization: itoken $GITHUB_ACCESS_TOKEN" https://api.github.com/repos/ryanwalker/grails-docker-exampld/keys
-}
-hiddenFiles() {
-	defaults write com.apple.finder AppleShowAllFiles $1
 }
 
 # amaon aws cli auto-completion
