@@ -9,3 +9,5 @@
 target
 build
 *.iml
+
+.envstore.yml
