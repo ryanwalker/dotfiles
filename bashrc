@@ -27,7 +27,6 @@ export ANT_OPTS="-Dfile.encoding=ISO-8859-1"
 export JAVA_OPTS="-Xms256m -Xmx1024m" #-XX:MaxPermSize=512m
 
 export EDITOR="vim"
-export SVNROOT="https://scm.infusiontest.com/svn/crmalpha"
 export CASSANDRA_HOME=$DEVTOOLS/cassandra
 export MYSQL_HOST=127.0.0.1
 export APPENGINE_JAVA_SDK_HOME="$DEVTOOLS/appengine-java-sdk"
@@ -83,18 +82,16 @@ alias addgitignore="find * -type d -empty -exec touch {}/.gitignore \;"
 alias catrun="./infusionsoft-dist/target/dist/server/bin/catalina.sh jpda run"
 alias dbvis="nohup ~/applications/dbvis/dbvis &"
 alias mci="mvn clean install"
-alias umci="svn up && mci"
 alias mcit6="mci && tom6"
 alias mcit="mci && tom"
-alias umcit="svn up && mci && tom"
 alias mi="mvn install"
 alias mit="mi && tom"
 alias mit6="mi && tom6"
+alias mt="mvn test"
 alias emt="mvn tomcat:run -pl webapp"
 alias emtd="mvnDebug tomcat:run -pl webapp"
 alias emtd6="mvnDebug tomcat6:run -pl webapp"
 alias src="source ~/.bash_profile"
-alias synctrunk="svn merge ^/crmalpha/trunk"
 alias mimekill="find . -name jmimemagic.log | xargs rm"
 alias restartWindow="sudo killall -HUP WindowServer"
 alias buildwithcamp="mvn clean && mvn install -P front && mvn install -P camp"
@@ -120,7 +117,6 @@ export PS1="\[\033]0;$WINDOW_TITLE  on \H [\w]\007
 :\033[34m\]\u@\h \[\033[31m\w\033[0m\]
 \$(parse_git_branch)\[\033[00m\] $ "
 
-alias filter="svn status | grep -v \"^ M\""
 
 unset bn;
 function bn () {
@@ -180,10 +176,6 @@ function metricsListn(){
   	nc -l 2003
 	done
 }
-unset ev;
-function ev(){
-	svn update && mvn clean install && tom;
-}
 
 unset headless;
 function headless(){
@@ -208,25 +200,9 @@ function runTestmail(){
         nohup mvn exec:java
 }
 
-unset get;
-function getbranch(){
-        cd ~/projects
-        svn co https://scm.infusiontest.com/svn/crmalpha/branches/crm-$1 $2
-}
-
 unset qo;
 function qo(){
 	vi $(find . -name $1 | xargs)
-}
-
-unset mt;
-function mt() {
-	svn up && svn log --limit 5 | grep '| ryan |' | awk '{print $1}' | sed 's/r//' | xargs -n 1 -0 -I rev svn merge -c rev . ../trunk
-}
-
-unset m;
-function m() {
-        svn up && svn log --limit 5 | grep '| ryan |' | awk '{print $1}' | sed 's/r//' | xargs -n 1 -0 -I rev svn merge -c rev . ../$1
 }
 
 # Setting PATH for Python 3.3
@@ -259,3 +235,10 @@ source '/Users/ryanw/google-cloud-sdk/completion.bash.inc'
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "/Users/ryanw/.gvm/bin/gvm-init.sh" ]] && source "/Users/ryanw/.gvm/bin/gvm-init.sh"
+
+# added by travis gem
+[ -f /Users/ryanwalker/.travis/travis.sh ] && source /Users/ryanwalker/.travis/travis.sh
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/ryanwalker/.sdkman"
+[[ -s "/Users/ryanwalker/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ryanwalker/.sdkman/bin/sdkman-init.sh"

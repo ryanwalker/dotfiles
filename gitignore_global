@@ -7,7 +7,6 @@
 
 .gradle
 target
-build
 *.iml
 
 .envstore.yml
