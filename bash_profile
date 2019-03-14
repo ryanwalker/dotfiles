@@ -14,7 +14,7 @@
 
 [ -r ~/.git-completion.bash ] && source ~/.git-completion.bash
 
-[ -r ~/.grails_autocomplete ] && source ~/.grails_autocomplete
+#[ -r ~/.grails_autocomplete ] && source ~/.grails_autocomplete
 
 [ -r ~/.fastlane/completions/completion.sh ] && source ~/.fastlane/completions/completion.sh
 
@@ -27,3 +27,8 @@ parse_git_branch() {
 
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/Users/ryan.walker/.sdkman"
+[[ -s "/Users/ryan.walker/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ryan.walker/.sdkman/bin/sdkman-init.sh"

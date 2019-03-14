@@ -1,13 +1,8 @@
 #!/bin/bash
 
 #Java
-export JAVA6_HOME=`/usr/libexec/java_home -v 1.6`
-export JAVA7_HOME=`/usr/libexec/java_home -v 1.7`
 export JAVA8_HOME=`/usr/libexec/java_home -v 1.8`
 export JAVA_HOME=$JAVA8_HOME
-alias j6='JAVA_HOME=$JAVA6_HOME; export PATH=$JAVA_HOME/bin:$PATH'
-alias j7='JAVA_HOME=$JAVA7_HOME; export PATH=$JAVA_HOME/bin:$PATH'
-alias j8='JAVA_HOME=$JAVA8_HOME; export PATH=$JAVA_HOME/bin:$PATH'
 
 export DEVTOOLS=~/devtools
 export CONNECTIQ_HOME=$DEVTOOLS/connectiq
@@ -17,8 +12,8 @@ export ANT_HOME=$DEVTOOLS/ant
 export GANT_HOME=$DEVTOOLS/gant
 export GOPATH=$HOME/projects/go
 export M3_HOME=/usr/local/Cellar/maven/3.3.9
-export GRAILS_HOME=$DEVTOOLS/grails
-export GRADLE_HOME=$DEVTOOLS/gradle
+#export GRAILS_HOME=$DEVTOOLS/grails
+#export GRADLE_HOME=$DEVTOOLS/gradle
 export ACTIVATOR_HOME="$DEVTOOLS/activator"
 
 export MAVEN_OPTS="-Xms2048m -Xmx2048m -XX:MaxPermSize=2048m -XX:ReservedCodeCacheSize=64m -XX:CompileCommand=exclude,com/infusion/databridge/MemoryRst,loadMeta -Dfile.encoding=ISO-8859-1"
@@ -33,16 +28,16 @@ export APPENGINE_JAVA_SDK_HOME="$DEVTOOLS/appengine-java-sdk"
 
 export PATH=~/devtools/visualvm/bin:~/bin:/usr/local/bin:/usr/local/mysql/bin:$M3_HOME/bin:$ANT_HOME/bin:$APPENGIN_JAVA_SDK_HOME/bin:$GRAILS_HOME/bin:$GANT_HOME/bin:$CONNECTIQ_HOME/bin:$PATH
 export PATH=$JAVA_HOME/bin:$GROOVY_HOME/bin:$PLAY_HOME:$SPRING_HOME/bin:$GRADLE_HOME/bin:$CASSANDRA_HOME/bin:/$ACTIVATOR_HOME:$GOPATH/bin:$CONNEC$PATH
-export DOCKERHUB_EMAIL=$(security find-generic-password -wa dockerhub_email)
-export DOCKERHUB_USERNAME=$(security find-generic-password -wa dockerhub_username)
-export DOCKERHUB_PASSWORD=$(security find-generic-password -wa dockerhub_password)
-export AWS_ACCESS_KEY_ID=$(security find-generic-password -wa aws_access_key_id)
-export AWS_SECRET_ACCESS_KEY=$(security find-generic-password -wa aws_secret_access_key)
-export GITHUB_ACCESS_TOKEN=$(security find-generic-password -wa github)
-export CIRCLE_CI_TOKEN=$(security find-generic-password -wa circle_ci_token)
-export DELPOY_USERNAME=$(security find-generic-password -wa delpoyusername)
-export DELPOY_PASSWORD=$(security find-generic-password -wa delpoypassword)
-export CODECOVE_API_TOKEN=$(security find-generic-password -wa CODECOV_API_TOKEN)
+#export DOCKERHUB_EMAIL=$(security find-generic-password -wa dockerhub_email)
+#export DOCKERHUB_USERNAME=$(security find-generic-password -wa dockerhub_username)
+#export DOCKERHUB_PASSWORD=$(security find-generic-password -wa dockerhub_password)
+#export AWS_ACCESS_KEY_ID=$(security find-generic-password -wa aws_access_key_id)
+#export AWS_SECRET_ACCESS_KEY=$(security find-generic-password -wa aws_secret_access_key)
+#export GITHUB_ACCESS_TOKEN=$(security find-generic-password -wa github)
+#export CIRCLE_CI_TOKEN=$(security find-generic-password -wa circle_ci_token)
+#export DELPOY_USERNAME=$(security find-generic-password -wa delpoyusername)
+#export DELPOY_PASSWORD=$(security find-generic-password -wa delpoypassword)
+#export CODECOVE_API_TOKEN=$(security find-generic-password -wa CODECOV_API_TOKEN)
 
 export DELPOY_URL='http://localhost:8080'
 alias proddelpoy="export DELPOY_URL='https://delpoy.sbsp.io'"
@@ -82,8 +77,8 @@ alias addgitignore="find * -type d -empty -exec touch {}/.gitignore \;"
 alias catrun="./infusionsoft-dist/target/dist/server/bin/catalina.sh jpda run"
 alias dbvis="nohup ~/applications/dbvis/dbvis &"
 alias mci="mvn clean install"
-alias mcit6="mci && tom6"
-alias mcit="mci && tom"
+alias mcit="mci && tom6"
+#alias mcit="mci && tom"
 alias mi="mvn install"
 alias mit="mi && tom"
 alias mit6="mi && tom6"
@@ -228,10 +223,10 @@ PERL_MB_OPT="--install_base \"/Users/ryanw/perl5\""; export PERL_MB_OPT;
 PERL_MM_OPT="INSTALL_BASE=/Users/ryanw/perl5"; export PERL_MM_OPT;
 
 # The next line updates PATH for the Google Cloud SDK.
-source '/Users/ryanw/google-cloud-sdk/path.bash.inc'
+#source '/Users/ryanw/google-cloud-sdk/path.bash.inc'
 
 # The next line enables shell command completion for gcloud.
-source '/Users/ryanw/google-cloud-sdk/completion.bash.inc'
+#source '/Users/ryanw/google-cloud-sdk/completion.bash.inc'
 
 #THIS MUST BE AT THE END OF THE FILE FOR GVM TO WORK!!!
 [[ -s "/Users/ryanw/.gvm/bin/gvm-init.sh" ]] && source "/Users/ryanw/.gvm/bin/gvm-init.sh"
@@ -239,6 +234,7 @@ source '/Users/ryanw/google-cloud-sdk/completion.bash.inc'
 # added by travis gem
 [ -f /Users/ryanwalker/.travis/travis.sh ] && source /Users/ryanwalker/.travis/travis.sh
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/ryanwalker/.sdkman"
-[[ -s "/Users/ryanwalker/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ryanwalker/.sdkman/bin/sdkman-init.sh"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

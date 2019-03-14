@@ -1,5 +1,5 @@
 [user]
-	email = ryan.walker@kubra.com
+	email = ryan.walker@infusionsoft.com
 	name = Ryan Walker
 [push]
 	default = simple
@@ -18,3 +18,5 @@
 	autocrlf = input
 [credential]
 	helper = osxkeychain
+[pager]
+	branch = false

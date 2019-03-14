@@ -1,0 +1,45 @@
+#!/usr/bin/env bash
+#
+# Vim Pastebin - Edit paste bin buffer saving to the buffer on close.
+
+set -e
+trap 'echo "error on line ${LINENO}"' ERR
+
+readonly SCRIPT_NAME=vipb
+
+err() {
+  echo 1>&2 "$@"
+}
+
+usage() {
+  err "usage: ${SCRIPT_NAME} [-h|--help]"
+  err ""
+  err "    -h | --help    display usage"
+  exit 1
+}
+
+main() {
+  args=()
+  while (( $# > 0 )); do
+    key=$1
+    case "${key}" in
+      -h|--help)
+        usage
+        ;;
+      *)
+        args+=("$1")
+        shift
+        ;;
+    esac
+  done
+  set -- "${args[@]}"
+
+  readonly tmpfile=$(mktemp -t "${SCRIPT_NAME}")
+
+  pbpaste > "${tmpfile}"
+  vim "${tmpfile}"
+  <"${tmpfile}" pbcopy
+  rm -f "${tmpfile}"
+}
+
+main $@
