@@ -2,49 +2,32 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH=/Users/ryan.walker/.oh-my-zsh
+export ZSH="/Users/rwalker/.oh-my-zsh"
+ZSH_THEME="agnoster"
 
 export EDITOR=vim
-
-# exports
-#export JAVA7_HOME=`/usr/libexec/java_home -v 1.7`
-export JAVA7_HOME=`/usr/libexec/java_home -v 1.7`
-export JAVA8_HOME='/Users/ryan.walker/.sdkman/candidates/java/current/bin/'
-export JAVA9_HOME=`/usr/libexec/java_home -v 9`
-
-export JAVA_HOME=$JAVA8_HOME
-
-alias j7='JAVA_HOME=$JAVA7_HOME; export PATH=$JAVA_HOME/bin:$PATH'
+export JAVA8_HOME=`/usr/libexec/java_home -v 1.8`
+export JAVA11_HOME=`/usr/libexec/java_home -v 11`
+export JAVA_HOME=$JAVA11_HOME
 alias j8='JAVA_HOME=$JAVA8_HOME; export PATH=$JAVA_HOME/bin:$PATH'
-alias j9='JAVA_HOME=$JAVA9_HOME; export PATH=$JAVA_HOME/bin:$PATH'
+alias j11='JAVA_HOME=$JAVA11_HOME; export PATH=$JAVA_HOME/bin:$PATH'
 
+export MAVEN_OPTS="-Xms2048m -Xmx2048m -XX:ReservedCodeCacheSize=64m $REBEL_OPTS"
+export AWS_CLI_HOME="$HOME/Library/Python/3.7/bin"
 
-# PATH Setup
-export DEVTOOLS="$HOME/devtools"
-export GOOGLE_CLOUD_SDK_HOME="$DEVTOOLS/google-cloud-sdk"
-export REBEL_HOME=$DEVTOOLS/jrebel
-export REBEL_OPTS="-agentpath:$REBEL_HOME/lib/libjrebel64.dylib"
-export MAVEN_OPTS="-Xms2048m -Xmx2048m -XX:MaxPermSize=2048m -XX:ReservedCodeCacheSize=64m $REBEL_OPTS"
-export JASYPT_HOME=$DEVTOOLS/jasypt
-export CORE_HOME=$HOME/projects/infusionsoft-core
-export PYTHON_HOME=$HOME/Library/Python/2.7
+export "PATH=$AWS_CLI_HOME:$PATH"
 
+# Go env vars
+export GOPATH=$HOME/go-workspace
 export GOROOT=/usr/local/opt/go/libexec
-export GOPATH=$HOME/.gopath
+export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
 
+#export MYSQL_HOST=127.0.0.1
 
-export PATH=$GOPATH/bin:$GOROOT/bin:$GOOGLE_CLOUD_SDK_HOME/bin:$JASYPT_HOME/bin:$DEVTOOLS:$PATH
-export PATH=$CORE_HOME/bin:$PATH
-export PATH=$PYTHON_HOME/bin:$PATH
+export PATH="$HOME/.fastlane/bin:$PATH"
 
-export MYSQL_HOST=127.0.0.1
-
-# export IS_APPOINTMENTSAPI_SERVICEACCOUNT=$(gsutil cat gs://is-appointments-api-sand-dev-resources/service-account.json | base64)
-# export CREDENTIALS_API_KEY=$(gsutil cat gs://is-appointments-api-sand-dev-resources/credentials-api-key.txt)
-
-# Export Keychain Secrets
-#export AWS_ACCESS_KEY_ID=$(security find-generic-password -wa AWS_ACCESS_KEY_ID)
-#export AWS_SECRET_ACCESS_KEY=$(security find-generic-password -wa AWS_SECRET_ACCESS_KEY)
+# replace mac sed with gnu-sed
+export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 
 unset portsearch;
 function portsearch(){
@@ -57,37 +40,33 @@ function b64d(){
     echo ''
 }
 
-unset mrf;
-function mrf() {
-    if [ -z "$1" ]; then
-        echo "Please provide a module to resume from.";
-    else
-        mvn install -rf :$1
-    fi
+unset b64;
+function b64(){
+    echo "$1" | base64
+    echo ''
+}    
+
+unset dayss;
+function dayss() {
+    echo "42";
 }
 
-export NVM_DIR="$HOME/.nvm"
-  [ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
-  [ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
+unset kc;
+function kc() {
+    rm -rf ~/.m2/repository/*
+    rm -rf ~/.gradle/caches/*
+}
+# User configuration
+DEFAULT_USER=`whoami`;
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
-# See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="agnoster"
-
-# Disable 'functions' built-in so google-cloud-funciton-emulator 'functions' works
-disable functions
-
-#if [ -f `brew --prefix`/usr/local/etc/bash_completion.d ]; then
-#    . `brew --prefix`/usr/local/etc/bash_completion.d
-#fi
-
+# This prints out how my time here at Kubra
+python ~/projects/ryans-scripts/python/timeAtKubra.py
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
 
-# Uncomment the following line to use hyphen-insensitive completion. Case
-# sensitive completion must be off. _ and - will be interchangeable.
+# Uncomment the following line to use hyphen-insensitive completion.
+# Case-sensitive completion must be off. _ and - will be interchangeable.
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment the following line to disable bi-weekly auto-update checks.
@@ -115,23 +94,25 @@ disable functions
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
 # ZSH_CUSTOM=/path/to/new-custom-folder
 
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
+# Which plugins would you like to load?
+# Standard plugins can be found in ~/.oh-my-zsh/plugins/*
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(git)
 
 source $ZSH/oh-my-zsh.sh
-source ~/.iterm2_shell_integration.zsh
 
 # User configuration
-DEFAULT_USER=`whoami`
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -159,14 +140,15 @@ DEFAULT_USER=`whoami`
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+# aliases
 alias carddb='ssh -N card'
-alias contacts='sg1 && cd contacts-api'
 alias core='cd ~/projects/infusionsoft-core'
 alias dbvis="nohup ~/applications/dbvis/dbvis &"
 alias dm='docker-machine'
-alias dockerinit='$(boot2docker shellinit)'
 alias dotfiles='cd ~/.dotfiles'
 alias dup='docker-compose up -d'
+
+alias dkill='docker stop $(docker ps -aq); docker rm $(docker ps -aq); docker volume rm $(docker volume ls -q);'
 
 # Gradle
 alias br='gw clean bootRun'
@@ -206,14 +188,18 @@ alias restartWindow="sudo killall -HUP WindowServer"
 alias rmr="rm -rf"
 alias showicons='defaults write com.apple.finder CreateDesktop true && killall Finder'
 alias src="source ~/.zshrc"
-alias sg1='cd ~/projects/sg1'
 alias tom="mvnDebug tomcat8:run"
 alias tomdist="./infusionsoft-dist/target/dist/server/bin/catalina.sh jpda run"
 
-alias tasks='sg1 && cd tasks-api'
 alias u="cd .."
 alias vim2='vim ~/.m2/settings.xml'
 alias viz='vim ~/.zshrc'
+alias vil='vim ~/.localrc'
+alias consumer='cd $HOME/projects/prepay-consumer-api'
+alias consumerweb='cd $HOME/projects/prepay-consumer'
+alias ins='cd $HOME/projects/prepay-instances-api'
+alias bal='cd $HOME/projects/prepay-balances-api'
+alias use='cd $HOME/projects/prepay-usage-api'
 
 # mobile dev
 alias ddd='rm -rf ~/Library/Developer/Xcode/DerivedData/'
@@ -221,27 +207,25 @@ alias fl='bundle exec fastlane'
 alias im='cd ~/projects/infusionsoft-mobile'
 alias simxs='xcrun simctl boot E8EA1DF4-D684-484E-8419-F35BE3B575FC'
 alias simxsmax='xcrun simctl boot C52DD2FB-0380-4F64-A598-5CE0FA26DE6E'
+alias dns='cat << EOM
+http://east.dev.kubra20181207.com
+http://west.dev.kubra20181207.com
+http://east.qa.kubra20181207.com
+http://west.qa.kubra20181207.com
+http://east.kubra20181207.com
+http://west.kubra20181207.com
+EOM
+'
 
-# Scripts and commands to run at startup
-node ~/projects/javascript/dayssince.js;
-# docker-compose -f ~/projects/infusionsoft-core/docker-compose.yml up -d
-
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+source ~/.localrc
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/ryan.walker/.sdkman"
-[[ -s "/Users/ryan.walker/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ryan.walker/.sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="/Users/rwalker/.sdkman"
+[[ -s "/Users/rwalker/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/rwalker/.sdkman/bin/sdkman-init.sh"
 
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/ryan.walker/devtools/google-cloud-sdk/path.zsh.inc' ]; then source '/Users/ryan.walker/devtools/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/ryan.walker/devtools/google-cloud-sdk/completion.zsh.inc' ]; then source '/Users/ryan.walker/devtools/google-cloud-sdk/completion.zsh.inc'; fi
+# added by travis gem
+[ -f /Users/rwalker/.travis/travis.sh ] && source /Users/rwalker/.travis/travis.sh
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
-export PATH="/usr/local/opt/ruby/bin:$PATH"
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
