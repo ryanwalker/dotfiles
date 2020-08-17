@@ -1,6 +1,6 @@
 [user]
 	email = ryanwalker7@gmail.com
-	name = Ryan Walker
+	name = Ryan Walekr
 [push]
 	default = simple
 [alias]
@@ -14,9 +14,17 @@
 [pull]
 	rebase = true
 [core]
-	excludesfile = ~/.gitignore_global
+	excludesfile = /Users/rwalker/.gitignore_global
 	autocrlf = input
 [credential]
 	helper = osxkeychain
 [pager]
 	branch = false
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/rwalker/.stCommitMsg

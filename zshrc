@@ -22,6 +22,12 @@ export GOPATH=$HOME/go-workspace
 export GOROOT=/usr/local/opt/go/libexec
 export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
 
+# Open Broadcast Studio
+export OBS_DIR="${HOME}/obs/obs-studio"
+export OBS_BIN="${HOME}/obs/obs-studio/build/rundir/RelWithDebInfo/bin"
+export QTDIR='/usr/local/opt/qt'
+alias obs="cd $OBS_DIR/build/rundir/RelWithDebInfo/bin && ./obs"
+
 #export MYSQL_HOST=127.0.0.1
 
 export PATH="$HOME/.fastlane/bin:$PATH"
@@ -37,13 +43,11 @@ function portsearch(){
 unset b64d;
 function b64d(){
     echo "$1" | base64 --decode
-    echo ''
 }
 
 unset b64;
 function b64(){
     echo "$1" | base64
-    echo ''
 }    
 
 unset dayss;
@@ -56,6 +60,19 @@ function kc() {
     rm -rf ~/.m2/repository/*
     rm -rf ~/.gradle/caches/*
 }
+
+function tlp() {
+  if [[ $@ =~ ^(dev|develop)$ ]]; then
+    command tsh ssh -L 3308:eks-east1-aurorastack-d3ruar4lj1u-databasecluster-1bfi59fjwwwcg.cluster-cjktz302ymmw.us-east-1.rds.amazonaws.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
+  elif [[ $@ == "qa" ]]; then
+    command tsh ssh -L 3308:eks-east1-aurorastack-d3ruar4lj1u-databasecluster-1d305c1n4aw52.cluster-cjktz302ymmw.us-east-1.rds.amazonaws.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
+  elif [[ $@ == "prod" ]]; then
+    command tsh ssh -L 3308:eks-west2-aurorastack-o67ae4kerwl-databasecluster-5mkjysc88iwh.cluster-ro-cpfng8plsdnz.us-west-2.rds.amazonaws.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
+  else
+    command tsh ssh --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
+  fi
+}
+
 # User configuration
 DEFAULT_USER=`whoami`;
 
@@ -147,8 +164,19 @@ alias dbvis="nohup ~/applications/dbvis/dbvis &"
 alias dm='docker-machine'
 alias dotfiles='cd ~/.dotfiles'
 alias dup='docker-compose up -d'
+alias dpa='docker ps -a'
+alias dr='docker rm $(docker ps -aq)'
+alias ds='docker stop $(docker ps -q)'
+alias dvr='docker volume rm $(docker volume ls -q)'
 
-alias dkill='docker stop $(docker ps -aq); docker rm $(docker ps -aq); docker volume rm $(docker volume ls -q);'
+#teleport - kubectl
+alias telDev='tsh ssh --proxy=teleport.kube-ra.net:3080 --user=developer -L3308:eks-east1-aurorastack-d3ruar4lj1u-databasecluster-1bfi59fjwwwcg.cluster-ro-cjktz302ymmw.us-east-1.rds.amazonaws.com:3306 developer@teleport'
+#alias telQa='tsh ssh --proxy=teleport.kube-ra.net:3080 --user=developer -L3308:eks-east1-aurorastack-d3ruar4lj1u-databasecluster-1d305c1n4aw52.cluster-ro-cjktz302ymmw.us-east-1.rds.amazonaws.com:3306 developer@teleport'
+alias telProd='tsh ssh --proxy=teleport.kube-ra.net:3080 --user=developer -L3308:eks-west2-aurorastack-o67ae4kerwl-databasecluster-5mkjysc88iwh.cluster-cpfng8plsdnz.us-west-2.rds.amazonaws.com:3306 developer@teleport'
+
+alias dk='docker stop $(docker ps -aq); docker rm $(docker ps -aq); docker volume rm $(docker volume ls -q);'
+
+alias depclear='rm -rf ~/.gradle/caches && rm -rf ~/.m2/repository'
 
 # Gradle
 alias br='gw clean bootRun'
@@ -180,6 +208,7 @@ alias mib="mi && mvn spring-boot:run"
 
 alias mimekill="find . -name jmimemagic.log | xargs rm"
 
+alias mysqldeleteaccounts='echo "use prepay-balances; delete from account_transaction; delete from account;" | MYSQL_HOST=127.0.0.1 mysql -uroot -proot'
 alias mysqldatadir="mysql -uroot -proot -e 'SHOW VARIABLES WHERE Variable_Name LIKE \"%dir\"'"
 alias pj='python -mjson.tool'
 alias proj='cd ~/projects'
@@ -193,13 +222,15 @@ alias tomdist="./infusionsoft-dist/target/dist/server/bin/catalina.sh jpda run"
 
 alias u="cd .."
 alias vim2='vim ~/.m2/settings.xml'
-alias viz='vim ~/.zshrc'
+alias viz='vim ~/.dotfiles/zshrc'
 alias vil='vim ~/.localrc'
-alias consumer='cd $HOME/projects/prepay-consumer-api'
-alias consumerweb='cd $HOME/projects/prepay-consumer'
+alias cons='cd $HOME/projects/prepay-consumer'
 alias ins='cd $HOME/projects/prepay-instances-api'
 alias bal='cd $HOME/projects/prepay-balances-api'
 alias use='cd $HOME/projects/prepay-usage-api'
+alias com='cd $HOME/projects/prepay-common'
+alias gbr='gw bootRun'
+
 
 # mobile dev
 alias ddd='rm -rf ~/Library/Developer/Xcode/DerivedData/'
