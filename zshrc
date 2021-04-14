@@ -63,11 +63,11 @@ function kc() {
 
 function tlp() {
   if [[ $@ =~ ^(dev|develop)$ ]]; then
-    command tsh ssh -L 3308:eks-east1-aurorastack-d3ruar4lj1u-databasecluster-1bfi59fjwwwcg.cluster-cjktz302ymmw.us-east-1.rds.amazonaws.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
+    command tsh ssh -L 3308:swift-db-dev.kubra20181207.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
   elif [[ $@ == "qa" ]]; then
-    command tsh ssh -L 3308:eks-east1-aurorastack-d3ruar4lj1u-databasecluster-1d305c1n4aw52.cluster-cjktz302ymmw.us-east-1.rds.amazonaws.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
+    command tsh ssh -L 3308:swift-db-qa.kubra20181207.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
   elif [[ $@ == "prod" ]]; then
-    command tsh ssh -L 3308:eks-west2-aurorastack-o67ae4kerwl-databasecluster-5mkjysc88iwh.cluster-ro-cpfng8plsdnz.us-west-2.rds.amazonaws.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
+    command tsh ssh -L 3308:swift-db.kubra20181207.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
   else
     command tsh ssh --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
   fi
@@ -165,7 +165,9 @@ alias dm='docker-machine'
 alias dotfiles='cd ~/.dotfiles'
 alias dup='docker-compose up -d'
 alias dpa='docker ps -a'
+alias dp='docker ps'
 alias dr='docker rm $(docker ps -aq)'
+alias dri='docker rmi $(docker images -aq)'
 alias ds='docker stop $(docker ps -q)'
 alias dvr='docker volume rm $(docker volume ls -q)'
 
@@ -228,7 +230,9 @@ alias cons='cd $HOME/projects/prepay-consumer'
 alias ins='cd $HOME/projects/prepay-instances-api'
 alias bal='cd $HOME/projects/prepay-balances-api'
 alias use='cd $HOME/projects/prepay-usage-api'
+alias pay='cd $HOME/projects/prepay-payments-api'
 alias com='cd $HOME/projects/prepay-common'
+alias qa='cd $HOME/projects/prepay-qa-tests'
 alias gbr='gw bootRun'
 
 
