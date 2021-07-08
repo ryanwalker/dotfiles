@@ -1,0 +1,30 @@
+[user]
+	email = ryanwalker7@gmail.com
+	name = The Ryan Walker
+[push]
+	default = simple
+[alias]
+  	co = checkout
+  	ci = commit
+  	st = status
+  	br = branch
+  	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+  	type = cat-file -t
+  	dump = cat-file -p
+[pull]
+	rebase = true
+[core]
+	excludesfile = /Users/rwalker/.gitignore_global
+	autocrlf = input
+[credential]
+	helper = osxkeychain
+[pager]
+	branch = false
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[commit]
+	template = /Users/rwalker/.stCommitMsg

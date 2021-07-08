@@ -171,9 +171,13 @@ alias dri='docker rmi $(docker images -aq)'
 alias ds='docker stop $(docker ps -q)'
 alias dvr='docker volume rm $(docker volume ls -q)'
 
+alias baldevinfo='curl -s https://dev.kubra.io/prepay/balances/actuator/info | jq .'
+alias balqainfo='curl -s https://qa.kubra.io/prepay/balances/actuator/info | jq .'
+alias balprodinfo='curl -s https://kubra.io/prepay/balances/actuator/info | jq .'
+
 #teleport - kubectl
 alias telDev='tsh ssh --proxy=teleport.kube-ra.net:3080 --user=developer -L3308:eks-east1-aurorastack-d3ruar4lj1u-databasecluster-1bfi59fjwwwcg.cluster-ro-cjktz302ymmw.us-east-1.rds.amazonaws.com:3306 developer@teleport'
-#alias telQa='tsh ssh --proxy=teleport.kube-ra.net:3080 --user=developer -L3308:eks-east1-aurorastack-d3ruar4lj1u-databasecluster-1d305c1n4aw52.cluster-ro-cjktz302ymmw.us-east-1.rds.amazonaws.com:3306 developer@teleport'
+alias telQa='tsh ssh -L 3308:eks-east1-aurorastack-d3ruar4lj1u-databasecluster-1d305c1n4aw52.cluster-cjktz302ymmw.us-east-1.rds.amazonaws.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport'
 alias telProd='tsh ssh --proxy=teleport.kube-ra.net:3080 --user=developer -L3308:eks-west2-aurorastack-o67ae4kerwl-databasecluster-5mkjysc88iwh.cluster-cpfng8plsdnz.us-west-2.rds.amazonaws.com:3306 developer@teleport'
 
 alias dk='docker stop $(docker ps -aq); docker rm $(docker ps -aq); docker volume rm $(docker volume ls -q);'
@@ -192,6 +196,8 @@ alias hideicons='defaults write com.apple.finder CreateDesktop false && killall 
 alias jc="export JAVA_TOOL_OPTIONS='-Djava.awt.headless=false' && jconsole"
 alias ll="ls -laG"
 alias ls="ls -G"
+
+alias ideadir="cd ~/./Library/Application\ Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/211.6693.111/IntelliJ\ IDEA.app/Contents/MacOS/"
 
 alias mc="mvn clean"
 alias mci="mvn clean install"
