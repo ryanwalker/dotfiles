@@ -1,21 +1,29 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/rwalker/.oh-my-zsh"
-ZSH_THEME="agnoster"
+export ZSH="/Users/ryan.walker/.oh-my-zsh"
+ZSH_THEME="powerlevel10k/powerlevel10k"
 
 export EDITOR=vim
 export JAVA8_HOME=`/usr/libexec/java_home -v 1.8`
 export JAVA11_HOME=`/usr/libexec/java_home -v 11`
 export JAVA_HOME=$JAVA11_HOME
-alias j8='JAVA_HOME=$JAVA8_HOME; export PATH=$JAVA_HOME/bin:$PATH'
-alias j11='JAVA_HOME=$JAVA11_HOME; export PATH=$JAVA_HOME/bin:$PATH'
+alias j8='sdk default java 8.0.302-tem'
+alias j11='sdk default java 11.0.2-open'
 
 export MAVEN_OPTS="-Xms2048m -Xmx2048m -XX:ReservedCodeCacheSize=64m $REBEL_OPTS"
 export AWS_CLI_HOME="$HOME/Library/Python/3.7/bin"
 
-export "PATH=$AWS_CLI_HOME:$PATH"
+export PATH=$AWS_CLI_HOME:$PATH
+export PATH=$HOME/software:$PATH
 
 # Go env vars
 export GOPATH=$HOME/go-workspace
@@ -38,6 +46,11 @@ export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 unset portsearch;
 function portsearch(){
     sudo lsof -i :$1
+}
+
+unset blah;
+blah () {
+    echo "BLAH"
 }
 
 unset b64d;
@@ -74,10 +87,11 @@ function tlp() {
 }
 
 # User configuration
-DEFAULT_USER=`whoami`;
+export DEFAULT_USR=$(whoami);
+export ENVVAR=123;
 
-# This prints out how my time here at Kubra
-python ~/projects/ryans-scripts/python/timeAtKubra.py
+# This prints out how my time here at Smarsh
+alias timeAtSmarsh='python ~/projects/ryans-scripts/python/timeAtSmarsh.py'
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -125,7 +139,10 @@ python ~/projects/ryans-scripts/python/timeAtKubra.py
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+plugins=(
+    git
+    zsh-autosuggestions
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -258,11 +275,13 @@ http://west.kubra20181207.com
 EOM
 '
 
-source ~/.localrc
+alias rundb='docker run --rm --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres'
+
+# source ~/.localrc
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/rwalker/.sdkman"
-[[ -s "/Users/rwalker/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/rwalker/.sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="/Users/ryan.walker/.sdkman"
+[[ -s "/Users/ryan.walker/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ryan.walker/.sdkman/bin/sdkman-init.sh"
 
 # added by travis gem
 [ -f /Users/rwalker/.travis/travis.sh ] && source /Users/rwalker/.travis/travis.sh
@@ -270,3 +289,13 @@ export SDKMAN_DIR="/Users/rwalker/.sdkman"
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+eval "$(direnv hook zsh)"
+export GPG_TTY=$(tty)
+eval "$(direnv hook zsh)"
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion

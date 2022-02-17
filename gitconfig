@@ -1,6 +1,6 @@
 [user]
 	email = ryanwalker7@gmail.com
-	name = The Ryan Walker
+	name = Ryan Walker
 [push]
 	default = simple
 [alias]
@@ -14,7 +14,7 @@
 [pull]
 	rebase = true
 [core]
-	excludesfile = /Users/rwalker/.gitignore_global
+	excludesfile = /Users/ryan.walker/.gitignore_global
 	autocrlf = input
 [credential]
 	helper = osxkeychain
@@ -27,4 +27,9 @@
 	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [commit]
-	template = /Users/rwalker/.stCommitMsg
+	template = /Users/ryan.walker/.stCommitMsg
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
