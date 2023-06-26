@@ -11,15 +11,19 @@ fi
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/ryan.walker/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
+ZSH_CUSTOM="powerlevel10k/powerlevel10k"
 
 export EDITOR=vim
-export JAVA8_HOME=`/usr/libexec/java_home -v 1.8`
-export JAVA11_HOME=`/usr/libexec/java_home -v 11`
-export JAVA_HOME=$JAVA11_HOME
+#export JAVA8_HOME=`/usr/libexec/java_home -v 1.8`
+#export JAVA11_HOME=`/usr/libexec/java_home -v 11`
+#export JAVA_HOME=$JAVA11_HOME
 alias j8='sdk default java 8.0.302-tem'
-alias j11='sdk default java 11.0.2-open'
+alias j11='sdk default java 11.0.14.10.1-amzn'
 
+
+export MAVEN_DEBUG_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005";
 export MAVEN_OPTS="-Xms2048m -Xmx2048m -XX:ReservedCodeCacheSize=64m $REBEL_OPTS"
+# export GRADLE_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5001"
 export AWS_CLI_HOME="$HOME/Library/Python/3.7/bin"
 
 export PATH=$AWS_CLI_HOME:$PATH
@@ -29,6 +33,7 @@ export PATH=$HOME/software:$PATH
 export GOPATH=$HOME/go-workspace
 export GOROOT=/usr/local/opt/go/libexec
 export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # Open Broadcast Studio
 export OBS_DIR="${HOME}/obs/obs-studio"
@@ -36,7 +41,7 @@ export OBS_BIN="${HOME}/obs/obs-studio/build/rundir/RelWithDebInfo/bin"
 export QTDIR='/usr/local/opt/qt'
 alias obs="cd $OBS_DIR/build/rundir/RelWithDebInfo/bin && ./obs"
 
-#export MYSQL_HOST=127.0.0.1
+export MYSQL_HOST=127.0.0.1
 
 export PATH="$HOME/.fastlane/bin:$PATH"
 
@@ -90,8 +95,8 @@ function tlp() {
 export DEFAULT_USR=$(whoami);
 export ENVVAR=123;
 
-# This prints out how my time here at Smarsh
-alias timeAtSmarsh='python ~/projects/ryans-scripts/python/timeAtSmarsh.py'
+# This prints out how my time here at company
+alias timeHere='python ~/projects/ryans-scripts/python/timeHere.py'
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -225,7 +230,8 @@ alias mit="mvnDebug tomcat8:run"
 alias mt='mvn test'
 alias mti='mvn integration-test'
 alias mipl="mvn install -pl $1"
-
+alias t9="mvn tomcat9:run -P development -P cas"
+alias mt4="mvn clean install -T 4C"
 alias msbr='mvn spring-boot:run'
 alias mcib="mci && mvn spring-boot:run"
 alias mbr='mvn spring-boot:run'
@@ -258,6 +264,10 @@ alias com='cd $HOME/projects/prepay-common'
 alias qa='cd $HOME/projects/prepay-qa-tests'
 alias gbr='gw bootRun'
 
+alias mats='cd ~/projects/subscription-management-backend-tests'
+alias ksm='cd ~/projects/subscription-management-service'
+alias sub='cd ~/projects/subscription-management-service'
+alias aim='cd ~/projects/app-inventory-management'
 
 # mobile dev
 alias ddd='rm -rf ~/Library/Developer/Xcode/DerivedData/'
@@ -283,9 +293,6 @@ alias rundb='docker run --rm --name postgres -e POSTGRES_PASSWORD=postgres -d -p
 export SDKMAN_DIR="/Users/ryan.walker/.sdkman"
 [[ -s "/Users/ryan.walker/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ryan.walker/.sdkman/bin/sdkman-init.sh"
 
-# added by travis gem
-[ -f /Users/rwalker/.travis/travis.sh ] && source /Users/rwalker/.travis/travis.sh
-
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
@@ -299,3 +306,14 @@ eval "$(direnv hook zsh)"
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ryan.walker/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ryan.walker/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ryan.walker/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ryan.walker/google-cloud-sdk/completion.zsh.inc'; fi
+
+# eval "$(starship init zsh)"
+
+autoload -U +X bashcompinit && bashcompinit
+complete -o nospace -C /usr/local/bin/terraform terraform
