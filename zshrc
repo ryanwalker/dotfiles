@@ -5,18 +5,11 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
-
 # Path to your oh-my-zsh installation.
 export ZSH="/Users/ryan.walker/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
-ZSH_CUSTOM="powerlevel10k/powerlevel10k"
 
 export EDITOR=vim
-#export JAVA8_HOME=`/usr/libexec/java_home -v 1.8`
-#export JAVA11_HOME=`/usr/libexec/java_home -v 11`
-#export JAVA_HOME=$JAVA11_HOME
 alias j8='sdk default java 8.0.302-tem'
 alias j11='sdk default java 11.0.14.10.1-amzn'
 
@@ -25,37 +18,24 @@ export MAVEN_DEBUG_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=
 export MAVEN_OPTS="-Xms2048m -Xmx2048m -XX:ReservedCodeCacheSize=64m $REBEL_OPTS"
 # export GRADLE_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5001"
 export AWS_CLI_HOME="$HOME/Library/Python/3.7/bin"
-
 export PATH=$AWS_CLI_HOME:$PATH
 export PATH=$HOME/software:$PATH
 
-# Go env vars
-export GOPATH=$HOME/go-workspace
-export GOROOT=/usr/local/opt/go/libexec
-export PATH=$PATH:$GOPATH/bin:$GOROOT/bin
+# Rust
 export PATH="$HOME/.cargo/bin:$PATH"
-
-# Open Broadcast Studio
-export OBS_DIR="${HOME}/obs/obs-studio"
-export OBS_BIN="${HOME}/obs/obs-studio/build/rundir/RelWithDebInfo/bin"
-export QTDIR='/usr/local/opt/qt'
-alias obs="cd $OBS_DIR/build/rundir/RelWithDebInfo/bin && ./obs"
-
-export MYSQL_HOST=127.0.0.1
-
-export PATH="$HOME/.fastlane/bin:$PATH"
 
 # replace mac sed with gnu-sed
 export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 
+export MYSQL_HOST='127.0.0.1'
+
+# User configuration
+export DEFAULT_USR=$(whoami);
+
+
 unset portsearch;
 function portsearch(){
     sudo lsof -i :$1
-}
-
-unset blah;
-blah () {
-    echo "BLAH"
 }
 
 unset b64d;
@@ -68,35 +48,9 @@ function b64(){
     echo "$1" | base64
 }    
 
-unset dayss;
-function dayss() {
-    echo "42";
-}
-
-unset kc;
-function kc() {
-    rm -rf ~/.m2/repository/*
-    rm -rf ~/.gradle/caches/*
-}
-
-function tlp() {
-  if [[ $@ =~ ^(dev|develop)$ ]]; then
-    command tsh ssh -L 3308:swift-db-dev.kubra20181207.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
-  elif [[ $@ == "qa" ]]; then
-    command tsh ssh -L 3308:swift-db-qa.kubra20181207.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
-  elif [[ $@ == "prod" ]]; then
-    command tsh ssh -L 3308:swift-db.kubra20181207.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
-  else
-    command tsh ssh --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport
-  fi
-}
-
-# User configuration
-export DEFAULT_USR=$(whoami);
-export ENVVAR=123;
 
 # This prints out how my time here at company
-alias timeHere='python ~/projects/ryans-scripts/python/timeHere.py'
+alias timeHere='python3 ~/projects/ryans-scripts/python/timeHere.py'
 
 # Uncomment the following line to use case-sensitive completion.
 # CASE_SENSITIVE="true"
@@ -285,21 +239,14 @@ http://west.kubra20181207.com
 EOM
 '
 
-alias rundb='docker run --rm --name postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 -v $HOME/docker/volumes/postgres:/var/lib/postgresql/data postgres'
-
 # source ~/.localrc
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="/Users/ryan.walker/.sdkman"
 [[ -s "/Users/ryan.walker/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ryan.walker/.sdkman/bin/sdkman-init.sh"
 
-# Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
-export PATH="$PATH:$HOME/.rvm/bin"
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
-
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
-eval "$(direnv hook zsh)"
 export GPG_TTY=$(tty)
 eval "$(direnv hook zsh)"
 
