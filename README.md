@@ -3,7 +3,6 @@
 To install you must have `rcm` installed.
 
 ```sh
-brew tap thoughtbot/formulae
 brew install rcm
 ```
 
