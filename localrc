@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+# Jan 4, 2024
+export GITHUB_REPO_ACCESS_TOKEN=
 
 export TRAVIS_AWS_ACCESS_KEY_ID="$(security find-generic-password -a TRAVIS_AWS_ACCESS_KEY_ID -w)"
 export TRAVIS_AWS_SECRET_ACCESS_KEY="$(security find-generic-password -a TRAVIS_AWS_SECRET_ACCESS_KEY -w)"

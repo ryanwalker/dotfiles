@@ -4,9 +4,24 @@
 .DS_Store?
 
 .idea
+.vscode
 
 .gradle
 target
 *.iml
 
 .envstore.yml
+
+.venv
+micronaut-annotation/bin
+micronaut-auth-helper/bin
+micronaut-bulkhead/bin
+micronaut-circuit-breaker/bin
+micronaut-datastore/bin
+micronaut-new-relic/bin
+micronaut-snowflake/bin
+micronaut-test-helper/bin
+micronaut-observability/bin
+micronaut-transactional-pubsub/bin
+appsBak
+__pycache__

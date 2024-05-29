@@ -10,16 +10,34 @@ export ZSH="/Users/ryan.walker/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 export EDITOR=vim
-alias j8='sdk default java 8.0.302-tem'
-alias j11='sdk default java 11.0.14.10.1-amzn'
+alias j8='sdk use java 8.0.402-zulu'
+alias j11='sdk use java 11.0.14.10.1-amzn'
+alias j17='sdk use java 17.0.9-amzn'
+alias j21='sdk use java 21.0.1-amzn'
+alias j22='sdk use java 22-amzn'
 
+alias j8d='sdk default java 8.0.402-zulu'
+alias j11d='sdk default java 11.0.14.10.1-amzn'
+alias j17d='sdk default java 17.0.9-amzn'
+alias j21d='sdk default java 21.0.1-amzn'
+alias j22d='sdk default java 22-amzn'
+
+alias jv='java -version'
 
 export MAVEN_DEBUG_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005";
-export MAVEN_OPTS="-Xms2048m -Xmx2048m -XX:ReservedCodeCacheSize=64m $REBEL_OPTS"
+# export MAVEN_OPTS="-Xms2048m -Xmx2048m -XX:ReservedCodeCacheSize=64m $REBEL_OPTS"
+# export MAVEN_OPTS="-Xmx4096m -Xms4096m -XX:ReservedCodeCacheSize=250M -XX:CompileCommand=exclude,com/infusion/databridge/MemoryRst,loadMeta -Dfile.encoding=UTF-8"
 # export GRADLE_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5001"
 export AWS_CLI_HOME="$HOME/Library/Python/3.7/bin"
 export PATH=$AWS_CLI_HOME:$PATH
 export PATH=$HOME/software:$PATH
+
+export GOPATH=$HOME/go
+export PATH="$GOPATH/bin:$PATH"
+export PATH="${HOME}/bin:$PATH"
+export PATH="${HOME}/projects/scripts:$PATH"
+
+export CLOUDSDK_PYTHON=/usr/local/bin/python3
 
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -27,7 +45,18 @@ export PATH="$HOME/.cargo/bin:$PATH"
 # replace mac sed with gnu-sed
 export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 
+export PYTHONPATH=$PYTHONPATH:$HOME/projects/engineering-reports
+
 export MYSQL_HOST='127.0.0.1'
+
+
+# Open Telemetry
+#export JAVA_TOOL_OPTIONS="-javaagent:$HOME/projects/otel/opentelemetry-javaagent.jar"
+#export OTEL_TRACES_EXPORTER=otlp
+#export OTEL_METRICS_EXPORTER=otlp
+#export OTEL_LOGS_EXPORTER=none
+# export OTEL_EXPORTER_OTLP_ENDPOINT= this should default to http://localhost:4317, https://github.com/open-telemetry/opentelemetry-java/blob/main/sdk-extensions/autoconfigure/README.md#disabling-opentelemetrysdk
+
 
 # User configuration
 export DEFAULT_USR=$(whoami);
@@ -38,9 +67,23 @@ function portsearch(){
     sudo lsof -i :$1
 }
 
+unset mvni;
+mvni(){
+        MODULES=$(git status | grep -E "modified:|deleted:|added:" | awk '{print $2}' | cut -f1 -d"/")
+	echo $MODULES
+                
+	if [  -z "$MODULES" ];
+        then
+        	echo "No changes (modified / deleted / added)  found"
+        else
+                echo -e "Changed modules are : `echo $MODULES`\n\n"
+                mvn install -pl $MODULES
+        fi
+}
+
 unset b64d;
 function b64d(){
-    echo "$1" | base64 --decode
+    echo "$1" | base64 -D
 }
 
 unset b64;
@@ -48,6 +91,17 @@ function b64(){
     echo "$1" | base64
 }    
 
+unset stgecred;
+function stgecred(){
+	rm credential.json; 
+	cp credential.stge.json credential.json
+}
+
+unset intgcred;
+function intgcred(){
+        rm credential.json; 
+	cp credential.intg.json credential.json
+}
 
 # This prints out how my time here at company
 alias timeHere='python3 ~/projects/ryans-scripts/python/timeHere.py'
@@ -134,12 +188,21 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # aliases
+# Keap Aliases
+alias tenantsintg='cloud_sql_proxy -instances=is-tenants-api-intg:us-west1:is-tenants-db=tcp:5436 -term_timeout 30s'
+alias tenantsstge='cloud_sql_proxy -instances=is-tenants-api-stge:us-west1:is-tenants-db=tcp:5437 -term_timeout 30s'
+alias tenantsprod='cloud_sql_proxy -instances=is-tenants-api-prod:us-west1:is-tenants-db=tcp:5434 -term_timeout 30s'
 alias carddb='ssh -N card'
 alias core='cd ~/projects/infusionsoft-core'
+alias metrics='cd ~/projects/metrics-api'
+alias coredberic='bin/mysql --user root < db/seeds/add_eric_user.sql'
+alias coredbme='echo "UPDATE User SET GlobalUserId=98186 WHERE Id=1;" | bin/mysql --user root "${USER//[^[:alnum:]]/}"'
 alias dbvis="nohup ~/applications/dbvis/dbvis &"
 alias dm='docker-machine'
 alias dotfiles='cd ~/.dotfiles'
 alias dup='docker-compose up -d'
+alias dstop='docker-compose stop'
+alias ddn='docker-compose down'
 alias dpa='docker ps -a'
 alias dp='docker ps'
 alias dr='docker rm $(docker ps -aq)'
@@ -150,6 +213,15 @@ alias dvr='docker volume rm $(docker volume ls -q)'
 alias baldevinfo='curl -s https://dev.kubra.io/prepay/balances/actuator/info | jq .'
 alias balqainfo='curl -s https://qa.kubra.io/prepay/balances/actuator/info | jq .'
 alias balprodinfo='curl -s https://kubra.io/prepay/balances/actuator/info | jq .'
+
+alias utc='date -u +%FT%TZ'
+
+# system aliases
+alias cores='sysctl hw.physicalcpu hw.logicalcpu'
+
+
+# git aliases
+alias citag='git tag --sort=-creatordate | head -n 10 | grep ci- | head -n 1'
 
 #teleport - kubectl
 alias telDev='tsh ssh --proxy=teleport.kube-ra.net:3080 --user=developer -L3308:eks-east1-aurorastack-d3ruar4lj1u-databasecluster-1bfi59fjwwwcg.cluster-ro-cjktz302ymmw.us-east-1.rds.amazonaws.com:3306 developer@teleport'
@@ -166,6 +238,7 @@ alias gs='gw geerateServer'
 alias gbuild='gw clean build'
 alias grun='gw clean runApp'
 alias gck='rmr ~/.gradle/caches/modules-2/files-2.1/'
+alias locks='find . -name 'gradle.lockfile' | xargs rm && gw generateLock --write-locks'
 
 alias gp='git pull'
 alias hideicons='defaults write com.apple.finder CreateDesktop false && killall Finder'
@@ -176,15 +249,15 @@ alias ls="ls -G"
 alias ideadir="cd ~/./Library/Application\ Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/211.6693.111/IntelliJ\ IDEA.app/Contents/MacOS/"
 
 alias mc="mvn clean"
-alias mci="mvn clean install"
+alias mci="mvn clean install -T 6C"
 alias mcit="mvnDebug clean tomcat8:run"
-alias mi="mvn install"
+alias mi='mvn install -T 6C'
 alias mic="mi -pl com.infusion.crm:newapi-contacts-client,com.infusion.crm:newapi-contacts-api,com.infusion.crm:newapi-contacts-contracts,com.infusion.crm:newapi-contacts-persist"
 alias mit="mvnDebug tomcat8:run"
 alias mt='mvn test'
 alias mti='mvn integration-test'
 alias mipl="mvn install -pl $1"
-alias t9="mvn tomcat9:run -P development -P cas"
+alias mrun="mvn tomcat9:run -P development -P cas -pl webapp"
 alias mt4="mvn clean install -T 4C"
 alias msbr='mvn spring-boot:run'
 alias mcib="mci && mvn spring-boot:run"
@@ -192,6 +265,9 @@ alias mbr='mvn spring-boot:run'
 alias mib="mi && mvn spring-boot:run"
 
 alias mimekill="find . -name jmimemagic.log | xargs rm"
+
+alias python="python3"
+alias pip="pip3"
 
 alias mysqldeleteaccounts='echo "use prepay-balances; delete from account_transaction; delete from account;" | MYSQL_HOST=127.0.0.1 mysql -uroot -proot'
 alias mysqldatadir="mysql -uroot -proot -e 'SHOW VARIABLES WHERE Variable_Name LIKE \"%dir\"'"
@@ -218,10 +294,14 @@ alias com='cd $HOME/projects/prepay-common'
 alias qa='cd $HOME/projects/prepay-qa-tests'
 alias gbr='gw bootRun'
 
+alias stgeblock='ssh -i ~/.ssh/terraform-ssh-keys-dev mm-001.stge'
+
 alias mats='cd ~/projects/subscription-management-backend-tests'
 alias ksm='cd ~/projects/subscription-management-service'
 alias sub='cd ~/projects/subscription-management-service'
 alias aim='cd ~/projects/app-inventory-management'
+
+alias cirval=' circleci config validate --org-slug gh/infusionsoft .circleci/config.yml' 
 
 # mobile dev
 alias ddd='rm -rf ~/Library/Developer/Xcode/DerivedData/'
@@ -238,6 +318,8 @@ http://east.kubra20181207.com
 http://west.kubra20181207.com
 EOM
 '
+#Night Shift Toggle - I setup a shortcut in the Mac Shortcuts app, and here i trigger it.
+alias nst='shortcuts run "Night Shift Toggle"'
 
 # source ~/.localrc
 
