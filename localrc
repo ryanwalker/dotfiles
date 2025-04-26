@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
-# Jan 4, 2024
+# Here's how to add a password to the keychain. It will prompt you for the password.
+# security add-generic-password -a PASSWORD_NAME -s PASSWORD_NAME -w
+
+export RECURLY_API_KEY="$(security find-generic-password -a RECURLY_API_KEY -w)"
+export CAS_USERNAME="$(security find-generic-password -a CAS_USERNAME -w)"
+export CAS_PASSWORD="$(security find-generic-password -a CAS_PASSWORD -w)"
+
 export GITHUB_REPO_ACCESS_TOKEN=
 
 export TRAVIS_AWS_ACCESS_KEY_ID="$(security find-generic-password -a TRAVIS_AWS_ACCESS_KEY_ID -w)"

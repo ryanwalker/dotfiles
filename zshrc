@@ -6,38 +6,37 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # Path to your oh-my-zsh installation.
-export ZSH="/Users/ryan.walker/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 ZSH_THEME="powerlevel10k/powerlevel10k"
 
 export EDITOR=vim
-alias j8='sdk use java 8.0.402-zulu'
-alias j11='sdk use java 11.0.14.10.1-amzn'
-alias j17='sdk use java 17.0.9-amzn'
-alias j21='sdk use java 21.0.1-amzn'
-alias j22='sdk use java 22-amzn'
+alias j11='sdk use java 11.0.23-amzn'
+alias j17='sdk use java 17.0.14-zulu'
+alias j21='sdk use java 21.0.6-zulu'
 
-alias j8d='sdk default java 8.0.402-zulu'
-alias j11d='sdk default java 11.0.14.10.1-amzn'
-alias j17d='sdk default java 17.0.9-amzn'
-alias j21d='sdk default java 21.0.1-amzn'
-alias j22d='sdk default java 22-amzn'
+alias j11d='sdk default java 11.0.32-amzn'
+alias j17d='sdk default java 17.0.14-zulu'
+alias j21d='sdk default java 21.0.6-zulu'
 
 alias jv='java -version'
+alias gv='gw -version'
 
 export MAVEN_DEBUG_OPTS="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005";
-# export MAVEN_OPTS="-Xms2048m -Xmx2048m -XX:ReservedCodeCacheSize=64m $REBEL_OPTS"
+# export MAVEN_OPTS="-Xms32g -Xmx32g -XX:ReservedCodeCacheSize=512m"
 # export MAVEN_OPTS="-Xmx4096m -Xms4096m -XX:ReservedCodeCacheSize=250M -XX:CompileCommand=exclude,com/infusion/databridge/MemoryRst,loadMeta -Dfile.encoding=UTF-8"
 # export GRADLE_OPTS="-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5001"
 export AWS_CLI_HOME="$HOME/Library/Python/3.7/bin"
 export PATH=$AWS_CLI_HOME:$PATH
 export PATH=$HOME/software:$PATH
 
-export GOPATH=$HOME/go
+#export GOPATH=$HOME/go
 export PATH="$GOPATH/bin:$PATH"
 export PATH="${HOME}/bin:$PATH"
-export PATH="${HOME}/projects/scripts:$PATH"
+export PATH="${HOME}/projects/scripts:$HOME/tools:$PATH"
 
 export CLOUDSDK_PYTHON=/usr/local/bin/python3
+
+#asdf
 
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
@@ -48,7 +47,6 @@ export PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 export PYTHONPATH=$PYTHONPATH:$HOME/projects/engineering-reports
 
 export MYSQL_HOST='127.0.0.1'
-
 
 # Open Telemetry
 #export JAVA_TOOL_OPTIONS="-javaagent:$HOME/projects/otel/opentelemetry-javaagent.jar"
@@ -155,6 +153,7 @@ alias timeHere='python3 ~/projects/ryans-scripts/python/timeHere.py'
 plugins=(
     git
     zsh-autosuggestions
+    gradle-completion
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -189,20 +188,21 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 # aliases
 # Keap Aliases
-alias tenantsintg='cloud_sql_proxy -instances=is-tenants-api-intg:us-west1:is-tenants-db=tcp:5436 -term_timeout 30s'
-alias tenantsstge='cloud_sql_proxy -instances=is-tenants-api-stge:us-west1:is-tenants-db=tcp:5437 -term_timeout 30s'
-alias tenantsprod='cloud_sql_proxy -instances=is-tenants-api-prod:us-west1:is-tenants-db=tcp:5434 -term_timeout 30s'
+alias tenantsintg='cloud-sql-proxy -instances=is-tenants-api-intg:us-west1:is-tenants-db=tcp:5436 -term_timeout 30s'
+alias tenantsstge='cloud-sql-proxy -instances=is-tenants-api-stge:us-west1:is-tenants-db=tcp:5437 -term_timeout 30s'
+alias tenantsprod='cloud-sql-proxy -instances=is-tenants-api-prod:us-west1:is-tenants-db=tcp:5434 -term_timeout 30s'
 alias carddb='ssh -N card'
 alias core='cd ~/projects/infusionsoft-core'
+alias core2='cd ~/projects/infusionsoft-core-2'
 alias metrics='cd ~/projects/metrics-api'
 alias coredberic='bin/mysql --user root < db/seeds/add_eric_user.sql'
 alias coredbme='echo "UPDATE User SET GlobalUserId=98186 WHERE Id=1;" | bin/mysql --user root "${USER//[^[:alnum:]]/}"'
 alias dbvis="nohup ~/applications/dbvis/dbvis &"
-alias dm='docker-machine'
+alias dm='docker machine'
 alias dotfiles='cd ~/.dotfiles'
-alias dup='docker-compose up -d'
-alias dstop='docker-compose stop'
-alias ddn='docker-compose down'
+alias dup='docker compose up -d'
+alias dstop='docker compose stop'
+alias ddn='docker compose down'
 alias dpa='docker ps -a'
 alias dp='docker ps'
 alias dr='docker rm $(docker ps -aq)'
@@ -221,15 +221,18 @@ alias cores='sysctl hw.physicalcpu hw.logicalcpu'
 
 
 # git aliases
-alias citag='git tag --sort=-creatordate | head -n 10 | grep ci- | head -n 1'
-
+alias citag="git tag --list 'ci-*' --sort=-creatordate | head -n 3"
+alias rctag="git tag --list 'rc-*' --sort=-creatordate | head -n 3"
+alias rtag="git tag --list 'r-*' --sort=-creatordate | head -n 3"
+alias tags="git tag --list --sort=-creatordate | head -n 5"
 #teleport - kubectl
 alias telDev='tsh ssh --proxy=teleport.kube-ra.net:3080 --user=developer -L3308:eks-east1-aurorastack-d3ruar4lj1u-databasecluster-1bfi59fjwwwcg.cluster-ro-cjktz302ymmw.us-east-1.rds.amazonaws.com:3306 developer@teleport'
 alias telQa='tsh ssh -L 3308:eks-east1-aurorastack-d3ruar4lj1u-databasecluster-1d305c1n4aw52.cluster-cjktz302ymmw.us-east-1.rds.amazonaws.com:3306 --proxy=teleport.kube-ra.net:3080 --user=developer developer@teleport'
 alias telProd='tsh ssh --proxy=teleport.kube-ra.net:3080 --user=developer -L3308:eks-west2-aurorastack-o67ae4kerwl-databasecluster-5mkjysc88iwh.cluster-cpfng8plsdnz.us-west-2.rds.amazonaws.com:3306 developer@teleport'
 
 alias dk='docker stop $(docker ps -aq); docker rm $(docker ps -aq); docker volume rm $(docker volume ls -q);'
-
+alias mk='minikube'
+alias kb='kubectl'
 alias depclear='rm -rf ~/.gradle/caches && rm -rf ~/.m2/repository'
 
 # Gradle
@@ -239,6 +242,7 @@ alias gbuild='gw clean build'
 alias grun='gw clean runApp'
 alias gck='rmr ~/.gradle/caches/modules-2/files-2.1/'
 alias locks='find . -name 'gradle.lockfile' | xargs rm && gw generateLock --write-locks'
+alias locksr='find . -name 'gradle.lockfile' | xargs rm && gw generateLock --write-locks --refresh-dependencies'
 
 alias gp='git pull'
 alias hideicons='defaults write com.apple.finder CreateDesktop false && killall Finder'
@@ -249,16 +253,16 @@ alias ls="ls -G"
 alias ideadir="cd ~/./Library/Application\ Support/JetBrains/Toolbox/apps/IDEA-U/ch-0/211.6693.111/IntelliJ\ IDEA.app/Contents/MacOS/"
 
 alias mc="mvn clean"
-alias mci="mvn clean install -T 6C"
-alias mcit="mvnDebug clean tomcat8:run"
-alias mi='mvn install -T 6C'
+alias mci="mvn clean install -T 14C -P development"
+alias mcit="mci && mrun"
+alias mi='mvn install -T 14C -P development'
 alias mic="mi -pl com.infusion.crm:newapi-contacts-client,com.infusion.crm:newapi-contacts-api,com.infusion.crm:newapi-contacts-contracts,com.infusion.crm:newapi-contacts-persist"
-alias mit="mvnDebug tomcat8:run"
+alias mit="mi && mrun"
 alias mt='mvn test'
 alias mti='mvn integration-test'
 alias mipl="mvn install -pl $1"
-alias mrun="mvn tomcat9:run -P development -P cas -pl webapp"
-alias mt4="mvn clean install -T 4C"
+#alias mrun="mvn tomcat9:run -P development -P cas -pl webapp"
+alias mrun="./bin/run.sh"
 alias msbr='mvn spring-boot:run'
 alias mcib="mci && mvn spring-boot:run"
 alias mbr='mvn spring-boot:run'
@@ -266,8 +270,8 @@ alias mib="mi && mvn spring-boot:run"
 
 alias mimekill="find . -name jmimemagic.log | xargs rm"
 
-alias python="python3"
-alias pip="pip3"
+#alias python="python3"
+#alias pip="pip3"
 
 alias mysqldeleteaccounts='echo "use prepay-balances; delete from account_transaction; delete from account;" | MYSQL_HOST=127.0.0.1 mysql -uroot -proot'
 alias mysqldatadir="mysql -uroot -proot -e 'SHOW VARIABLES WHERE Variable_Name LIKE \"%dir\"'"
@@ -324,8 +328,8 @@ alias nst='shortcuts run "Night Shift Toggle"'
 # source ~/.localrc
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/Users/ryan.walker/.sdkman"
-[[ -s "/Users/ryan.walker/.sdkman/bin/sdkman-init.sh" ]] && source "/Users/ryan.walker/.sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
@@ -333,16 +337,28 @@ export GPG_TTY=$(tty)
 eval "$(direnv hook zsh)"
 
 export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/Users/ryan.walker/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ryan.walker/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/Users/ryan.walker/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ryan.walker/google-cloud-sdk/completion.zsh.inc'; fi
+    [ -s "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" ] && \. "$HOMEBREW_PREFIX/opt/nvm/nvm.sh" # This loads nvm
+    [ -s "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$HOMEBREW_PREFIX/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
 
 # eval "$(starship init zsh)"
 
 autoload -U +X bashcompinit && bashcompinit
 complete -o nospace -C /usr/local/bin/terraform terraform
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+
+# Created by `pipx` on 2024-09-11 22:51:38
+export PATH="$PATH:/Users/ryan.walker/.local/bin"
+
+# Add `idea` clie
+export PATH="$PATH:/Applications/IntelliJ IDEA.app/Contents/MacOS"
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/ryan.walker/tools/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/ryan.walker/tools/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/ryan.walker/tools/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/ryan.walker/tools/google-cloud-sdk/completion.zsh.inc'; fi
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/ryanwalker/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
