@@ -325,7 +325,7 @@ EOM
 #Night Shift Toggle - I setup a shortcut in the Mac Shortcuts app, and here i trigger it.
 alias nst='shortcuts run "Night Shift Toggle"'
 
-# source ~/.localrc
+source ~/.localrc
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"

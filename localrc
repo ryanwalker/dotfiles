@@ -8,38 +8,11 @@ export CAS_PASSWORD="$(security find-generic-password -a CAS_PASSWORD -w)"
 
 export GITHUB_REPO_ACCESS_TOKEN=
 
-export TRAVIS_AWS_ACCESS_KEY_ID="$(security find-generic-password -a TRAVIS_AWS_ACCESS_KEY_ID -w)"
-export TRAVIS_AWS_SECRET_ACCESS_KEY="$(security find-generic-password -a TRAVIS_AWS_SECRET_ACCESS_KEY -w)"
+# export API_TEST_USER_USERNAME="$(security find-generic-password -a API_TEST_USER_USERNAME -w)"
+# export API_TEST_USER_PASSWORD="$(security find-generic-password -a API_TEST_USER_PASSWORD -w)"
 
-export TRAVIS_ARTIFACT_REPOSITORY_USERNAME="$(security find-generic-password -a TRAVIS_ARTIFACT_REPOSITORY_USERNAME -w)"
-export TRAVIS_ARTIFACT_REPOSITORY_PASSWORD="$(security find-generic-password -a TRAVIS_ARTIFACT_REPOSITORY_PASSWORD -w)"
-export TRAVIS_DOCKER_HUB_USERNAME="$(security find-generic-password -a TRAVIS_DOCKER_HUB_USERNAME -w)"
-export DOCKER_HUB_USERNAME="$(security find-generic-password -a TRAVIS_DOCKER_HUB_USERNAME -w)"
-export TRAVIS_DOCKER_HUB_PASSWORD="$(security find-generic-password -a TRAVIS_DOCKER_HUB_PASSWORD -w)"
-export DOCKER_HUB_PASSWORD="$(security find-generic-password -a TRAVIS_DOCKER_HUB_PASSWORD -w)"
-export TRAVIS_SONAR_TOKEN="$(security find-generic-password -a TRAVIS_SONAR_TOKEN -w)"
-export TRAVIS_KUBRA_BASIC_AUTH_AUTH0_CLIENT_ID="$(security find-generic-password -a TRAVIS_KUBRA_BASIC_AUTH_AUTH0_CLIENT_ID -w)"
-export TRAVIS_KUBRA_BASIC_AUTH_AUTH0_CLIENT_SECRET="$(security find-generic-password -a TRAVIS_KUBRA_BASIC_AUTH_AUTH0_CLIENT_SECRET -w)"
-
-export KUBRA_BASIC_AUTH_AUTH0_CLIENT_ID="$(security find-generic-password -a KUBRA_BASIC_AUTH_AUTH0_CLIENT_ID -w)"
-export KUBRA_BASIC_AUTH_AUTH0_CLIENT_SECRET="$(security find-generic-password -a KUBRA_BASIC_AUTH_AUTH0_CLIENT_SECRET -w)"
-
-export API_TEST_USER_USERNAME="$(security find-generic-password -a API_TEST_USER_USERNAME -w)"
-export API_TEST_USER_PASSWORD="$(security find-generic-password -a API_TEST_USER_PASSWORD -w)"
-
-export GITHUB_TOKEN="$(security find-generic-password -a GITHUB_TOKEN -w)"
+# export GITHUB_TOKEN="$(security find-generic-password -a GITHUB_TOKEN -w)"
 
 export FONTAWESOME_TOKEN=854A8578-569D-43B0-94C3-F5ABAAD02E58
 
-export GENABILITY_APP_KEY="$(security find-generic-password -a GENABILITY_APP_KEY -w)"
-export GENABILITY_APP_ID="$(security find-generic-password -a GENABILITY_APP_ID -w)"
-
-export INSTANCE_ID='a9bf6f75-8b79-4813-a449-90158e63ada3'
-export ARTICLE_ID='externalId:ownerId:PrePayAccount'
-export TENANT_ID='aa36150d-5c91-48de-8005-54c95b941610'
-
-export KUBRA_BASIC_AUTH_NOTIFI_USERNAME='support2+m2m-notifi-demo@kubra.com'
-export KUBRA_BASIC_AUTH_NOTIFI_PASSWORD='B8B8zD4pZANe4!w'
-
-export PREPAY_SERVICE_USER_PASSWORD='6wy800U^mj%vlW@6ddbRR3dW'
 export TZ=UTC
