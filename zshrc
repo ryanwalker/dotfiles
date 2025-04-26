@@ -36,8 +36,6 @@ export PATH="${HOME}/projects/scripts:$HOME/tools:$PATH"
 
 export CLOUDSDK_PYTHON=/usr/local/bin/python3
 
-#asdf
-
 # Rust
 export PATH="$HOME/.cargo/bin:$PATH"
 
@@ -154,6 +152,7 @@ plugins=(
     git
     zsh-autosuggestions
     gradle-completion
+    asdf
 )
 
 source $ZSH/oh-my-zsh.sh
