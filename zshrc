@@ -57,6 +57,17 @@ export MYSQL_HOST='127.0.0.1'
 # User configuration
 export DEFAULT_USR=$(whoami);
 
+unset main;
+main() {
+  if git checkout main 2>/dev/null; then
+    echo "Checked out 'main' branch."
+  elif git checkout master 2>/dev/null; then
+    echo "Checked out 'master' branch."
+  else
+    echo "Neither 'main' nor 'master' branch could be checked out." >&2
+    return 1
+  fi
+}
 
 unset portsearch;
 function portsearch(){
