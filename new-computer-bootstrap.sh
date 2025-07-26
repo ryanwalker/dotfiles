@@ -4,6 +4,7 @@ brew install direnv;
 brew install jq;
 brew install yq;
 brew install gh;
+brew install php;
 
 brew install derailed/k9s/k9s
 

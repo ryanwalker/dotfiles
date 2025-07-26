@@ -19,3 +19,8 @@ rcup -v rcrc
 # Sets up all the other dot files
 rcup -v
 ```
+
+Now run the bootstrap script to install tools:
+```sh
+./new-computer-bootstrap.sh
+```
