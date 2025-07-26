@@ -9,7 +9,7 @@ brew install docker; # Docker CLI
 brew install colima; # Docker runtime
 brew services start colima;
 
-git clone https://github.com/lukechilds/zsh-nvm ~/.oh-my-zsh/custom/plugins/zsh-nvm
+git clone https://github.com/lukechilds/zsh-nvm $ZSH_CUSTOM/plugins/zsh-nvm
 
 brew install derailed/k9s/k9s # https://k9scli.io/topics/install/
 
