@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #
-# Vim Pastebin - Edit paste bin buffer saving to the buffer on close.
+# Vim Pastebin - Edit macOS clipboard contents in Vim and save changes back to the clipboard.
 
 set -e
 trap 'echo "error on line ${LINENO}"' ERR

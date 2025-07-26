@@ -2,17 +2,17 @@
 # Here's how to add a password to the keychain. It will prompt you for the password.
 # security add-generic-password -a PASSWORD_NAME -s PASSWORD_NAME -w
 
-export RECURLY_API_KEY="$(security find-generic-password -a RECURLY_API_KEY -w)"
-export CAS_USERNAME="$(security find-generic-password -a CAS_USERNAME -w)"
-export CAS_PASSWORD="$(security find-generic-password -a CAS_PASSWORD -w)"
+# export RECURLY_API_KEY="$(security find-generic-password -a RECURLY_API_KEY -w)"
+# export CAS_USERNAME="$(security find-generic-password -a CAS_USERNAME -w)"
+#f export CAS_PASSWORD="$(security find-generic-password -a CAS_PASSWORD -w)"
 
-export GITHUB_REPO_ACCESS_TOKEN=
+# export GITHUB_REPO_ACCESS_TOKEN=
 
 # export API_TEST_USER_USERNAME="$(security find-generic-password -a API_TEST_USER_USERNAME -w)"
 # export API_TEST_USER_PASSWORD="$(security find-generic-password -a API_TEST_USER_PASSWORD -w)"
 
 # export GITHUB_TOKEN="$(security find-generic-password -a GITHUB_TOKEN -w)"
 
-export FONTAWESOME_TOKEN=854A8578-569D-43B0-94C3-F5ABAAD02E58
+# export FONTAWESOME_TOKEN=854A8578-569D-43B0-94C3-F5ABAAD02E58
 
 export TZ=UTC
