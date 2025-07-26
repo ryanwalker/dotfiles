@@ -5,10 +5,15 @@ brew install jq;
 brew install yq;
 brew install gh;
 brew install php;
+brew install docker; # Docker CLI
+brew install colima; # Docker runtime
+brew services start colima;
 
-brew install derailed/k9s/k9s
+git clone https://github.com/lukechilds/zsh-nvm ~/.oh-my-zsh/custom/plugins/zsh-nvm
 
-brew tap gdubw/gng
+brew install derailed/k9s/k9s # https://k9scli.io/topics/install/
+
+brew tap gdubw/gng # https://github.com/gdubw/gng
 brew install gng
 
 gh auth login;

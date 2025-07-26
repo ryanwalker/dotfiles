@@ -161,6 +161,7 @@ alias timeHere='python3 ~/projects/ryans-scripts/python/timeHere.py'
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     git
+    zsh-nvm
     zsh-autosuggestions
     gradle-completion
     asdf
